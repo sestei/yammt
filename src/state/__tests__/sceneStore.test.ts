@@ -1,0 +1,53 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+import { useSceneStore } from '../sceneStore'
+import type { ThinLens } from '../../lib/scene/types'
+
+function thinLens(id: string, xMm: number, group: ThinLens['group'] = 0, locked = false): ThinLens {
+  return { id, kind: 'thin-lens', label: id, locked, group, xMm, diameterMm: 25, focalLengthMm: 100 }
+}
+
+beforeEach(() => {
+  useSceneStore.setState({
+    components: [],
+    selectedComponentId: null,
+    dragState: null,
+  })
+})
+
+describe('moveComponent', () => {
+  it('moves grouped components together', () => {
+    useSceneStore.setState({
+      components: [thinLens('a', 0, 1), thinLens('b', 50, 1), thinLens('c', 100, 0)],
+    })
+    useSceneStore.getState().moveComponent('a', 10)
+    const byId = Object.fromEntries(useSceneStore.getState().components.map((c) => [c.id, c]))
+    expect((byId.a as ThinLens).xMm).toBe(10)
+    expect((byId.b as ThinLens).xMm).toBe(60) // shifted by the same +10 delta
+    expect((byId.c as ThinLens).xMm).toBe(100) // ungrouped, untouched
+  })
+
+  it('does not move a locked component', () => {
+    useSceneStore.setState({ components: [thinLens('a', 0, 0, true)] })
+    useSceneStore.getState().moveComponent('a', 999)
+    expect((useSceneStore.getState().components[0] as ThinLens).xMm).toBe(0)
+  })
+
+  it('still carries a locked member along when a different unlocked member initiates the drag', () => {
+    // Locked only blocks grabbing that component directly; group spacing must not drift.
+    useSceneStore.setState({
+      components: [thinLens('a', 0, 1), thinLens('b', 50, 1, true)],
+    })
+    useSceneStore.getState().moveComponent('a', 10)
+    const byId = Object.fromEntries(useSceneStore.getState().components.map((c) => [c.id, c]))
+    expect((byId.a as ThinLens).xMm).toBe(10)
+    expect((byId.b as ThinLens).xMm).toBe(60) // shifted by the same +10 delta, despite being locked
+  })
+})
+
+describe('setGroup', () => {
+  it('assigning group 0 removes a component from its group', () => {
+    useSceneStore.setState({ components: [thinLens('a', 0, 3)] })
+    useSceneStore.getState().setGroup('a', 0)
+    expect(useSceneStore.getState().components[0].group).toBe(0)
+  })
+})
