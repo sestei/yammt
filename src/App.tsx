@@ -1,4 +1,5 @@
 import { GraphView } from './components/graph/GraphView'
+import { FileControls } from './components/layout/FileControls'
 import { ComponentPalette } from './components/palette/ComponentPalette'
 import { BeamSettingsPanel } from './components/panels/BeamSettingsPanel'
 import { PropertiesPanel } from './components/panels/PropertiesPanel'
@@ -9,6 +10,7 @@ function App() {
     <div id="app-shell">
       <header>
         <h1>YAMMT - Yet Another Mode-Matching Tool</h1>
+        <FileControls />
       </header>
       <div className="app-body">
         <aside className="sidebar">
