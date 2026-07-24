@@ -8,6 +8,7 @@ import { useSceneStore } from '../../state/sceneStore'
 import { Axes } from './Axes'
 import { BeamEnvelope } from './BeamEnvelope'
 import { ComponentsLayer } from './ComponentsLayer'
+import { graphSvgRef } from './graphSvgRef'
 import { OutputBeamInfo } from './OutputBeamInfo'
 import { SecondaryAxisCurve } from './SecondaryAxisCurve'
 import { createScales, createSecondaryScale } from './scales'
@@ -96,6 +97,9 @@ export function GraphView() {
     >
       {size.width > 0 && size.height > 0 && (
         <svg
+          ref={(el) => {
+            graphSvgRef.current = el
+          }}
           className="graph-view"
           viewBox={`0 0 ${width} ${height}`}
           width={width}

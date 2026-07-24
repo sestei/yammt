@@ -1,5 +1,8 @@
-export function downloadJson(json: string, filename: string): void {
-  const blob = new Blob([json], { type: 'application/json' })
+import { buildStandaloneSvgString } from '../graph/exportSvg'
+
+export const PNG_EXPORT_SCALE = 2
+
+export function downloadBlob(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
@@ -8,6 +11,44 @@ export function downloadJson(json: string, filename: string): void {
   a.click()
   document.body.removeChild(a)
   URL.revokeObjectURL(url)
+}
+
+export function downloadJson(json: string, filename: string): void {
+  downloadBlob(new Blob([json], { type: 'application/json' }), filename)
+}
+
+/** Rasterizes the graph SVG to a PNG blob at `scale`x the SVG's current pixel dimensions. */
+export function exportPng(svgEl: SVGSVGElement, scale: number): Promise<Blob> {
+  const width = svgEl.width.baseVal.value
+  const height = svgEl.height.baseVal.value
+  const svgString = buildStandaloneSvgString(svgEl)
+  const url = URL.createObjectURL(new Blob([svgString], { type: 'image/svg+xml' }))
+
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => {
+      const canvas = document.createElement('canvas')
+      canvas.width = width * scale
+      canvas.height = height * scale
+      const ctx = canvas.getContext('2d')
+      if (!ctx) {
+        URL.revokeObjectURL(url)
+        reject(new Error('Canvas not supported'))
+        return
+      }
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+      canvas.toBlob((blob) => {
+        URL.revokeObjectURL(url)
+        if (blob) resolve(blob)
+        else reject(new Error('PNG export failed'))
+      }, 'image/png')
+    }
+    img.onerror = () => {
+      URL.revokeObjectURL(url)
+      reject(new Error('Could not rasterize graph'))
+    }
+    img.src = url
+  })
 }
 
 /** Opens a native file picker and resolves with the selected file's text content. */
