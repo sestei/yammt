@@ -52,7 +52,12 @@ export function ComponentsLayer({
       )
     }
     if (c.kind === 'thick-lens') {
-      const threeSigmaRadiusMm = 1.5 * beamStateAt(beam, elements, c.xMm).radiusMm
+      // Sized/warned off the larger of the two surfaces -- the beam radius can
+      // differ noticeably between them (refraction, local wavelength inside the
+      // substrate), and the glyph must be tall enough to cover whichever is bigger.
+      const leftRadiusMm = beamStateAt(beam, elements, c.xMm).radiusMm
+      const rightRadiusMm = beamStateAt(beam, elements, c.xMm + c.centerThicknessMm).radiusMm
+      const threeSigmaRadiusMm = 1.5 * Math.max(leftRadiusMm, rightRadiusMm)
       return (
         <ThickLensGlyph
           key={c.id}
