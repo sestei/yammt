@@ -1,5 +1,6 @@
 import { mmToDisplayY, mmToUnit, niceTickInterval, unitLabel } from '../../lib/units/length'
 import type { SecondaryAxisSpec } from '../../lib/graph/secondaryAxis'
+import { buildTicks, formatTickValue } from '../../lib/graph/ticks'
 import type { HoleSpacing, LengthUnit } from '../../lib/scene/types'
 import type { Scales, SecondaryScale } from './scales'
 
@@ -15,41 +16,32 @@ interface AxesProps {
   secondaryScale?: SecondaryScale
 }
 
-function xTicksMm(xMinMm: number, xMaxMm: number, xUnit: LengthUnit, holeSpacing: HoleSpacing): number[] {
+function xTicksMm(
+  xMinMm: number,
+  xMaxMm: number,
+  xUnit: LengthUnit,
+  holeSpacing: HoleSpacing,
+): { ticks: number[]; stepInUnit: number } {
   const spanInUnit = mmToUnit(xMaxMm - xMinMm, xUnit, holeSpacing)
   const stepInUnit = niceTickInterval(spanInUnit)
-  const stepMm = stepInUnit === 0 ? xMaxMm - xMinMm : (stepInUnit / spanInUnit) * (xMaxMm - xMinMm)
-  const ticks: number[] = []
-  const first = Math.ceil(xMinMm / stepMm) * stepMm
-  for (let t = first; t <= xMaxMm; t += stepMm) {
-    ticks.push(t)
-  }
-  return ticks
+  const stepMm = stepInUnit === 0 || spanInUnit === 0 ? xMaxMm - xMinMm : (stepInUnit / spanInUnit) * (xMaxMm - xMinMm)
+  return { ticks: buildTicks(xMinMm, xMaxMm, stepMm), stepInUnit }
 }
 
 /** Ticks symmetric around zero, spaced per niceTickInterval in the display unit. */
-function yTicksMm(yMaxMm: number, yUnit: 'mm' | 'um'): number[] {
+function yTicksMm(yMaxMm: number, yUnit: 'mm' | 'um'): { ticks: number[]; stepInUnit: number } {
   const maxInUnit = mmToDisplayY(yMaxMm, yUnit)
   const stepInUnit = niceTickInterval(maxInUnit, 4)
-  if (stepInUnit <= 0) return [0]
+  if (stepInUnit <= 0) return { ticks: [0], stepInUnit }
   const stepMm = yUnit === 'um' ? stepInUnit / 1000 : stepInUnit
-  const ticks: number[] = [0]
-  for (let t = stepMm; t <= yMaxMm + 1e-9; t += stepMm) {
-    ticks.push(t, -t)
-  }
-  return ticks
+  const positive = buildTicks(stepMm, yMaxMm + 1e-9, stepMm)
+  return { ticks: [0, ...positive, ...positive.map((t) => -t)], stepInUnit }
 }
 
 /** Ticks spanning [domainMin, domainMax], spaced per niceTickInterval. */
 function secondaryTicks(domainMin: number, domainMax: number): number[] {
   const step = niceTickInterval(domainMax - domainMin, 4)
-  if (step <= 0) return [0]
-  const ticks: number[] = []
-  const first = Math.ceil(domainMin / step) * step
-  for (let t = first; t <= domainMax; t += step) {
-    ticks.push(t)
-  }
-  return ticks
+  return buildTicks(domainMin, domainMax, step)
 }
 
 export function Axes({
@@ -71,28 +63,28 @@ export function Axes({
   return (
     <g className="axes">
       <g className="gridlines-x">
-        {xTicks.map((zMm) => (
+        {xTicks.ticks.map((zMm) => (
           <line key={zMm} x1={scales.xToSvg(zMm)} y1={0} x2={scales.xToSvg(zMm)} y2={scales.height} />
         ))}
       </g>
       <g className="gridlines-y">
-        {yTicks.map((rMm) => (
+        {yTicks.ticks.map((rMm) => (
           <line key={rMm} x1={0} y1={scales.yToSvg(rMm)} x2={scales.width} y2={scales.yToSvg(rMm)} />
         ))}
       </g>
       <g className="tick-labels-x">
-        {xTicks.map((zMm) => (
+        {xTicks.ticks.map((zMm) => (
           <text key={zMm} x={scales.xToSvg(zMm)} y={scales.height - 4}>
-            {mmToUnit(zMm, xUnit, holeSpacing).toFixed(2)}
+            {formatTickValue(mmToUnit(zMm, xUnit, holeSpacing), xTicks.stepInUnit)}
           </text>
         ))}
       </g>
       <g className="tick-labels-y">
-        {yTicks
+        {yTicks.ticks
           .filter((rMm) => rMm !== 0)
           .map((rMm) => (
             <text key={rMm} x={4} y={scales.yToSvg(rMm) - 3}>
-              {mmToDisplayY(rMm, yUnit).toFixed(yUnit === 'um' ? 0 : 2)}
+              {formatTickValue(mmToDisplayY(rMm, yUnit), yTicks.stepInUnit)}
             </text>
           ))}
       </g>
