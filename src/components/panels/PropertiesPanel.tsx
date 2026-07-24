@@ -2,6 +2,7 @@ import type { ChangeEvent } from 'react'
 import { checkThickLensGeometry } from '../../lib/optics/thickLensGeometry'
 import { isXRangeFreeOfLenses } from '../../lib/scene/placeholderCollision'
 import { mmToUnit, unitLabel, unitToMm } from '../../lib/units/length'
+import { Panel } from '../layout/Panel'
 import { useSelectedComponent } from '../../state/selectors'
 import { useSceneStore } from '../../state/sceneStore'
 import { AnalyzerReadout } from './AnalyzerReadout'
@@ -22,36 +23,35 @@ export function PropertiesPanel() {
 
   if (!selected) {
     return (
-      <section className="panel properties-panel">
-        <h2>Properties</h2>
+      <Panel title="Properties" className="properties-panel">
         <p className="empty-state">No component selected</p>
-      </section>
+      </Panel>
     )
   }
 
+  const deleteButton = (
+    <button
+      type="button"
+      className="icon-button"
+      title="Delete component"
+      aria-label="Delete component"
+      onClick={() => removeComponent(selected.id)}
+    >
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+        <path
+          d="M3 4h10M6.5 4V2.5h3V4M4.5 4l.5 9.5a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1L11.5 4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>
+  )
+
   return (
-    <section className="panel properties-panel">
-      <div className="panel-header">
-        <h2>Properties</h2>
-        <button
-          type="button"
-          className="icon-button"
-          title="Delete component"
-          aria-label="Delete component"
-          onClick={() => removeComponent(selected.id)}
-        >
-          <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-            <path
-              d="M3 4h10M6.5 4V2.5h3V4M4.5 4l.5 9.5a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1L11.5 4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-      </div>
+    <Panel title="Properties" extra={deleteButton} className="properties-panel">
       <label>
         Label
         <input
@@ -169,6 +169,6 @@ export function PropertiesPanel() {
         })()}
 
       <GroupSelector value={selected.group} onChange={(group) => setGroup(selected.id, group)} />
-    </section>
+    </Panel>
   )
 }

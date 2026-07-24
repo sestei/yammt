@@ -13,17 +13,19 @@ function App() {
         <FileControls />
       </header>
       <div className="app-body">
-        <aside className="sidebar">
-          <ComponentPalette />
-          <BeamSettingsPanel />
-          <ViewportSettingsPanel />
-        </aside>
+        <div className="sidebar-column">
+          <aside className="sidebar">
+            <ComponentPalette />
+            <BeamSettingsPanel />
+            <ViewportSettingsPanel />
+          </aside>
+          <aside className="sidebar sidebar-right">
+            <PropertiesPanel />
+          </aside>
+        </div>
         <main>
           <GraphView />
         </main>
-        <aside className="sidebar sidebar-right">
-          <PropertiesPanel />
-        </aside>
       </div>
     </div>
   )

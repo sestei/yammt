@@ -1,5 +1,6 @@
 import type { ChangeEvent } from 'react'
 import type { HoleSpacing, LengthUnit } from '../../lib/scene/types'
+import { Panel } from '../layout/Panel'
 import { useSceneStore } from '../../state/sceneStore'
 
 const UNIT_OPTIONS: LengthUnit[] = ['mm', 'cm', 'm', 'holes']
@@ -17,8 +18,7 @@ export function ViewportSettingsPanel() {
   }
 
   return (
-    <section className="panel viewport-settings-panel">
-      <h2>View</h2>
+    <Panel title="View" className="viewport-settings-panel">
       <label>
         X-axis units
         <select value={viewport.xUnit} onChange={onUnitChange}>
@@ -38,6 +38,6 @@ export function ViewportSettingsPanel() {
           </select>
         </label>
       )}
-    </section>
+    </Panel>
   )
 }

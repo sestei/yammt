@@ -1,3 +1,4 @@
+import { Panel } from '../layout/Panel'
 import { useSceneStore } from '../../state/sceneStore'
 import { NumberField } from './NumberField'
 
@@ -6,8 +7,7 @@ export function BeamSettingsPanel() {
   const setBeam = useSceneStore((s) => s.setBeam)
 
   return (
-    <section className="panel beam-settings-panel">
-      <h2>Beam</h2>
+    <Panel title="Initial beam" className="beam-settings-panel">
       <NumberField
         label="Wavelength (nm)"
         value={beam.wavelengthNm}
@@ -28,6 +28,6 @@ export function BeamSettingsPanel() {
         step={1}
         onCommit={(waistZMm) => setBeam({ waistZMm })}
       />
-    </section>
+    </Panel>
   )
 }

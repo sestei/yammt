@@ -1,9 +1,6 @@
 import { useMemo, type DragEvent } from 'react'
-import { createAnalyzer, createPlaceholder, createThickLens, createThinLens } from '../../lib/scene/factory'
-import { isXRangeFreeOfLenses, isXRangeFreeOfPlaceholders } from '../../lib/scene/placeholderCollision'
-import { getLeftXMm, getRightXMm } from '../../lib/scene/positions'
+import { buildComponentAt, isPaletteComponentKind } from '../../lib/scene/placement'
 import { autoYUnit } from '../../lib/units/length'
-import type { SceneComponent } from '../../lib/scene/types'
 import { PALETTE_DRAG_TYPE } from '../palette/ComponentPalette'
 import { useBeamProfile } from '../../state/selectors'
 import { useSceneStore } from '../../state/sceneStore'
@@ -16,13 +13,6 @@ import { useContainerSize } from './useContainerSize'
 import { useDeleteKeyboardShortcut } from './useDeleteKeyboardShortcut'
 import { useGroupKeyboardShortcut } from './useGroupKeyboardShortcut'
 import { useViewportGestures } from './useViewportGestures'
-
-const COMPONENT_FACTORIES: Record<string, (xMm: number) => SceneComponent> = {
-  'thin-lens': createThinLens,
-  'thick-lens': createThickLens,
-  analyzer: createAnalyzer,
-  placeholder: createPlaceholder,
-}
 
 export function GraphView() {
   const viewport = useSceneStore((s) => s.viewport)
@@ -65,21 +55,13 @@ export function GraphView() {
 
   function onDrop(e: DragEvent<HTMLDivElement>) {
     const kind = e.dataTransfer.getData(PALETTE_DRAG_TYPE)
-    const factory = COMPONENT_FACTORIES[kind]
-    if (!factory) return
+    if (!isPaletteComponentKind(kind)) return
     e.preventDefault()
     const rect = e.currentTarget.getBoundingClientRect()
     const offsetX = e.clientX - rect.left
     const xMm = scales.svgToX(offsetX)
-    const component = factory(xMm)
-
-    const left = getLeftXMm(component)
-    const right = getRightXMm(component)
-    const isFree =
-      component.kind === 'placeholder'
-        ? isXRangeFreeOfLenses(components, left, right)
-        : isXRangeFreeOfPlaceholders(components, left, right)
-    if (!isFree) return
+    const component = buildComponentAt(kind, xMm, components)
+    if (!component) return
 
     addComponent(component)
     select(component.id)

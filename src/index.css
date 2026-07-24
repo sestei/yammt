@@ -63,6 +63,9 @@ body {
 }
 
 .header-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font: inherit;
   font-size: 13px;
   color: var(--text);
@@ -77,6 +80,10 @@ body {
   border-color: var(--accent);
 }
 
+.button-icon {
+  color: var(--text-muted);
+}
+
 .file-controls-error {
   font-size: 12px;
   color: rgb(var(--warning));
@@ -89,6 +96,10 @@ body {
   display: flex;
 }
 
+.sidebar-column {
+  display: contents;
+}
+
 .sidebar {
   width: 260px;
   flex-shrink: 0;
@@ -96,11 +107,13 @@ body {
   border-right: 1px solid var(--border);
   background: var(--panel-bg);
   overflow-y: auto;
+  order: 0;
 }
 
 .sidebar-right {
   border-right: none;
   border-left: 1px solid var(--border);
+  order: 2;
 }
 
 .empty-state {
@@ -195,6 +208,12 @@ body {
   cursor: grabbing;
 }
 
+.panel + .panel {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
 .panel h2 {
   font-size: 11px;
   font-weight: 600;
@@ -208,10 +227,32 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+
+.panel-header:hover h2 {
+  color: var(--text);
 }
 
 .panel-header h2 {
   margin: 0;
+}
+
+.panel-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.collapse-chevron {
+  color: var(--text-muted);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.panel.collapsed .panel-header {
+  margin-bottom: 0;
 }
 
 .icon-button {
@@ -220,7 +261,6 @@ body {
   justify-content: center;
   width: 24px;
   height: 24px;
-  margin-bottom: 12px;
   padding: 0;
   color: var(--text-muted);
   background: transparent;
@@ -265,11 +305,52 @@ body {
 }
 
 #app-shell main {
+  order: 1;
   flex: 1;
   min-height: 0;
   min-width: 0;
   display: flex;
   background: var(--bg);
+}
+
+@media (max-width: 900px) {
+  .sidebar-column {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    flex-shrink: 0;
+    padding: 16px;
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+    background: var(--panel-bg);
+  }
+
+  .sidebar-column .sidebar,
+  .sidebar-column .sidebar-right {
+    display: contents;
+  }
+
+  .sidebar-column .properties-panel {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .sidebar-column .component-palette-panel {
+    order: 0;
+  }
+
+  .sidebar-column .properties-panel {
+    order: 1;
+  }
+
+  .sidebar-column .beam-settings-panel {
+    order: 2;
+  }
+
+  .sidebar-column .viewport-settings-panel {
+    order: 3;
+  }
 }
 
 .graph-view-container {
