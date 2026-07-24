@@ -17,6 +17,10 @@ export function isPaletteComponentKind(kind: string): kind is PaletteComponentKi
 }
 
 function isPlacementFree(component: SceneComponent, components: SceneComponent[]): boolean {
+  // Analyzers are just a readout, not a physical component, so they're exempt
+  // from placeholder collision entirely.
+  if (component.kind === 'analyzer') return true
+
   const left = getLeftXMm(component)
   const right = getRightXMm(component)
   return component.kind === 'placeholder'

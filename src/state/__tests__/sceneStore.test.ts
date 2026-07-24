@@ -1,9 +1,17 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { useSceneStore } from '../sceneStore'
-import type { ThinLens } from '../../lib/scene/types'
+import type { BeamAnalyzer, Placeholder, ThinLens } from '../../lib/scene/types'
 
 function thinLens(id: string, xMm: number, group: ThinLens['group'] = 0, locked = false): ThinLens {
   return { id, kind: 'thin-lens', label: id, locked, group, xMm, diameterMm: 25, focalLengthMm: 100 }
+}
+
+function placeholder(id: string, xStartMm: number, xEndMm: number): Placeholder {
+  return { id, kind: 'placeholder', label: id, locked: false, group: 0, xStartMm, xEndMm }
+}
+
+function analyzer(id: string, xMm: number): BeamAnalyzer {
+  return { id, kind: 'analyzer', label: id, locked: false, group: 0, xMm }
 }
 
 beforeEach(() => {
@@ -41,6 +49,21 @@ describe('moveComponent', () => {
     const byId = Object.fromEntries(useSceneStore.getState().components.map((c) => [c.id, c]))
     expect((byId.a as ThinLens).xMm).toBe(10)
     expect((byId.b as ThinLens).xMm).toBe(60) // shifted by the same +10 delta, despite being locked
+  })
+
+  it('lets an analyzer move into (and a placeholder move over) an analyzer, unlike a lens', () => {
+    useSceneStore.setState({
+      components: [placeholder('p', 0, 20), analyzer('a', 50), thinLens('l', 100)],
+    })
+    useSceneStore.getState().moveComponent('a', 10) // into the placeholder's region
+    expect((useSceneStore.getState().components[1] as BeamAnalyzer).xMm).toBe(10)
+
+    useSceneStore.getState().moveComponent('p', 40) // placeholder now covers the analyzer's new position
+    expect((useSceneStore.getState().components[0] as Placeholder).xStartMm).toBe(40)
+
+    // Sanity check: a real lens is still blocked from entering the placeholder's region.
+    useSceneStore.getState().moveComponent('l', 45)
+    expect((useSceneStore.getState().components[2] as ThinLens).xMm).toBe(100)
   })
 })
 

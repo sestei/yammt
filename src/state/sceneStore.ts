@@ -122,13 +122,14 @@ export const useSceneStore = create<SceneStoreState>((set, get) => ({
 
     // Placeholders and lenses can never overlap: check the directly-dragged
     // component's new position against the opposite kind (symmetric exclusion).
+    // Analyzers are just a readout, not a physical component, so they're exempt.
     const moved = withLeftXMm(comp, newLeftXMm)
     const others = get().components.filter((c) => c.id !== id)
     const newLeft = getLeftXMm(moved)
     const newRight = getRightXMm(moved)
     if (comp.kind === 'placeholder') {
       if (!isXRangeFreeOfLenses(others, newLeft, newRight)) return
-    } else if (!isXRangeFreeOfPlaceholders(others, newLeft, newRight)) {
+    } else if (comp.kind !== 'analyzer' && !isXRangeFreeOfPlaceholders(others, newLeft, newRight)) {
       return
     }
 
