@@ -103,4 +103,20 @@ describe('serializeScene / deserializeScene', () => {
     const json = JSON.stringify({ ...fullSceneDocument(), lensDatabase: 'not-an-array' })
     expect(() => deserializeScene(json)).toThrow(/lensDatabase/)
   })
+
+  it('round-trips a flat lens surface (Infinity ROC) without turning it into null', () => {
+    const doc = fullSceneDocument()
+    const flatLens = { ...doc.components[1], rightRocMm: Infinity }
+    const withFlatLens = { ...doc, components: [doc.components[0], flatLens, ...doc.components.slice(2)] }
+    const roundTripped = deserializeScene(serializeScene(withFlatLens))
+    expect(roundTripped.components[1]).toMatchObject({ rightRocMm: Infinity })
+  })
+
+  it('recovers a flat ROC saved as null by an older, buggy build', () => {
+    const doc = fullSceneDocument()
+    const brokenLens = { ...doc.components[1], rightRocMm: null }
+    const json = JSON.stringify({ ...doc, components: [doc.components[0], brokenLens, ...doc.components.slice(2)] })
+    const recovered = deserializeScene(json)
+    expect(recovered.components[1]).toMatchObject({ rightRocMm: Infinity })
+  })
 })

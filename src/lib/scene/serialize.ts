@@ -2,12 +2,45 @@ import type { SceneDocument } from './types'
 
 export const CURRENT_SCHEMA_VERSION = 1
 
+// JSON has no representation for Infinity (a flat lens surface's radius of
+// curvature) -- JSON.stringify silently turns it into `null`, which would
+// come back as `null` (not Infinity) on load and poison the optics/geometry
+// math with NaN. Round-trip it through sentinel strings instead.
+const INFINITY_SENTINEL = '__Infinity__'
+const NEG_INFINITY_SENTINEL = '__-Infinity__'
+
+function replacer(_key: string, value: unknown): unknown {
+  if (value === Infinity) return INFINITY_SENTINEL
+  if (value === -Infinity) return NEG_INFINITY_SENTINEL
+  return value
+}
+
+function reviver(_key: string, value: unknown): unknown {
+  if (value === INFINITY_SENTINEL) return Infinity
+  if (value === NEG_INFINITY_SENTINEL) return -Infinity
+  return value
+}
+
 export function serializeScene(doc: SceneDocument): string {
-  return JSON.stringify(doc, null, 2)
+  return JSON.stringify(doc, replacer, 2)
 }
 
 function assert(condition: boolean, message: string): asserts condition {
   if (!condition) throw new Error(`Invalid scene file: ${message}`)
+}
+
+const ROC_FIELDS = ['leftRocMm', 'rightRocMm'] as const
+
+// Recovers files saved before Infinity round-tripping was fixed: a flat
+// surface's ROC was written out as `null` and needs to become Infinity again,
+// not be left as `null` (which is not a valid ROC and would produce NaN).
+function recoverNullRoc(entry: Record<string, unknown>): Record<string, unknown> {
+  if (entry.kind !== 'thick-lens') return entry
+  const fixed = { ...entry }
+  for (const field of ROC_FIELDS) {
+    if (fixed[field] === null) fixed[field] = Infinity
+  }
+  return fixed
 }
 
 /**
@@ -28,7 +61,9 @@ function migrateScene(raw: unknown): SceneDocument {
       // Additive field: older save files predate the lens database and simply don't have it.
       const lensDatabase = 'lensDatabase' in doc ? doc.lensDatabase : []
       assert(Array.isArray(lensDatabase), 'invalid "lensDatabase"')
-      return { ...doc, lensDatabase } as unknown as SceneDocument
+      const components = (doc.components as unknown[]).map((c) => recoverNullRoc(c as Record<string, unknown>))
+      const recoveredLensDatabase = lensDatabase.map((e) => recoverNullRoc(e as Record<string, unknown>))
+      return { ...doc, components, lensDatabase: recoveredLensDatabase } as unknown as SceneDocument
     }
     default:
       throw new Error(`Invalid scene file: unsupported schemaVersion "${String(doc.schemaVersion)}"`)
@@ -36,6 +71,6 @@ function migrateScene(raw: unknown): SceneDocument {
 }
 
 export function deserializeScene(json: string): SceneDocument {
-  const raw = JSON.parse(json)
+  const raw = JSON.parse(json, reviver)
   return migrateScene(raw)
 }
