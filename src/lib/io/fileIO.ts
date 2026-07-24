@@ -36,6 +36,8 @@ export function exportPng(svgEl: SVGSVGElement, scale: number): Promise<Blob> {
         reject(new Error('Canvas not supported'))
         return
       }
+      ctx.fillStyle = 'white'
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
       canvas.toBlob((blob) => {
         URL.revokeObjectURL(url)

@@ -22,6 +22,25 @@
   --secondary-axis: #a78bfa;
 }
 
+/*
+ * Applied momentarily to <html> during SVG/PNG export (see buildStandaloneSvgString
+ * in lib/graph/exportSvg.ts) so exported graphics sit on a transparent background
+ * with dark-on-light contrast, instead of the app's own dark theme colors.
+ */
+:root[data-export-theme='light'] {
+  --beam-red: 190, 30, 50;
+  --optical-axis: #9aa0ab;
+  --gridline: #e2e5ea;
+  --tick-label: #4b5563;
+  --selection: #1f7fe0;
+  --lens-fill: #5a6270;
+  --lens-stroke: #2b2f38;
+  --warning: 180, 95, 6;
+  --analyzer: #0f9488;
+  --secondary-axis: #7c3aed;
+  --text-muted: #4b5563;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -445,7 +464,7 @@ body {
   border: 1px solid var(--border);
   border-radius: 6px;
   background: rgba(21, 24, 30, 0.85);
-  font-size: 12px;
+  font-size: 13px;
   pointer-events: none;
   min-width: 140px;
 }
@@ -575,7 +594,7 @@ body {
 
 .component .component-label {
   fill: var(--text-muted);
-  font-size: 11px;
+  font-size: 13px;
   text-anchor: middle;
 }
 
@@ -605,7 +624,7 @@ body {
 
 .component .analyzer-radius-label {
   fill: var(--analyzer);
-  font-size: 11px;
+  font-size: 13px;
   text-anchor: middle;
 }
 

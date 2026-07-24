@@ -20,17 +20,21 @@ function inlineComputedStyles(original: Element, clone: Element): void {
   }
 }
 
-/** Clones the live graph SVG into a standalone string with all styling baked in as inline styles. */
+/**
+ * Clones the live graph SVG into a standalone string with all styling baked in as
+ * inline styles. Exported graphics use a light color palette (see the
+ * `[data-export-theme="light"]` overrides in index.css) with a transparent
+ * background, regardless of the app's own dark theme — momentarily applied to the
+ * live DOM while computed styles are read, then reverted before this returns.
+ */
 export function buildStandaloneSvgString(svgEl: SVGSVGElement): string {
-  const clone = svgEl.cloneNode(true) as SVGSVGElement
-  inlineComputedStyles(svgEl, clone)
-  clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
-
-  const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
-  bg.setAttribute('width', '100%')
-  bg.setAttribute('height', '100%')
-  bg.setAttribute('fill', getComputedStyle(document.body).backgroundColor)
-  clone.insertBefore(bg, clone.firstChild)
-
-  return new XMLSerializer().serializeToString(clone)
+  document.documentElement.setAttribute('data-export-theme', 'light')
+  try {
+    const clone = svgEl.cloneNode(true) as SVGSVGElement
+    inlineComputedStyles(svgEl, clone)
+    clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    return new XMLSerializer().serializeToString(clone)
+  } finally {
+    document.documentElement.removeAttribute('data-export-theme')
+  }
 }
