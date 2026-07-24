@@ -13,8 +13,8 @@ import type {
 } from '../lib/scene/types'
 
 const DEFAULT_BEAM: GaussianBeam = {
-  wavelengthNm: 1064,
-  waistUm: 337,
+  wavelengthNm: 1550,
+  waistUm: 450,
   waistZMm: 0,
 }
 

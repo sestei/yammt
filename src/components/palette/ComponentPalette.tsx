@@ -1,4 +1,8 @@
-import type { DragEvent } from 'react'
+import type { ComponentType, DragEvent } from 'react'
+import { AnalyzerIcon } from '../icons/AnalyzerIcon'
+import { PlaceholderIcon } from '../icons/PlaceholderIcon'
+import { ThickLensIcon } from '../icons/ThickLensIcon'
+import { ThinLensIcon } from '../icons/ThinLensIcon'
 import { Panel } from '../layout/Panel'
 import { buildComponentAt, type PaletteComponentKind } from '../../lib/scene/placement'
 import { getRightXMm } from '../../lib/scene/positions'
@@ -9,11 +13,11 @@ export const PALETTE_DRAG_TYPE = 'application/x-yammt-component'
 const GAP_MM = 10
 const VIEW_MARGIN_FRACTION = 0.1
 
-const PALETTE_ITEMS: { kind: PaletteComponentKind; label: string }[] = [
-  { kind: 'thin-lens', label: 'Thin Lens' },
-  { kind: 'thick-lens', label: 'Thick Lens' },
-  { kind: 'analyzer', label: 'Beam Analyzer' },
-  { kind: 'placeholder', label: 'Placeholder' },
+const PALETTE_ITEMS: { kind: PaletteComponentKind; label: string; icon: ComponentType }[] = [
+  { kind: 'thin-lens', label: 'Thin Lens', icon: ThinLensIcon },
+  { kind: 'thick-lens', label: 'Thick Lens', icon: ThickLensIcon },
+  { kind: 'analyzer', label: 'Beam Analyzer', icon: AnalyzerIcon },
+  { kind: 'placeholder', label: 'Placeholder', icon: PlaceholderIcon },
 ]
 
 export function ComponentPalette() {
@@ -48,17 +52,20 @@ export function ComponentPalette() {
 
   return (
     <Panel title="Components" className="component-palette-panel">
-      {PALETTE_ITEMS.map(({ kind, label }) => (
-        <div
-          key={kind}
-          className="palette-item"
-          draggable
-          onDragStart={(e) => onDragStart(e, kind)}
-          onClick={() => onClick(kind)}
-        >
-          {label}
-        </div>
-      ))}
+      <div className="palette-grid">
+        {PALETTE_ITEMS.map(({ kind, label, icon: Icon }) => (
+          <div
+            key={kind}
+            className="palette-item"
+            draggable
+            onDragStart={(e) => onDragStart(e, kind)}
+            onClick={() => onClick(kind)}
+          >
+            <Icon />
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
     </Panel>
   )
 }

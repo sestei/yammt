@@ -23,13 +23,13 @@ interface ThickLensShape {
   centerThicknessMm: number
 }
 
-const DEFAULT_THIN_LENS_SHAPE: ThinLensShape = { diameterMm: 25, focalLengthMm: 100 }
+const DEFAULT_THIN_LENS_SHAPE: ThinLensShape = { diameterMm: 25.4, focalLengthMm: 100 }
 
 const DEFAULT_THICK_LENS_SHAPE: ThickLensShape = {
   refractiveIndex: 1.5,
   leftRocMm: 50,
   rightRocMm: -50,
-  diameterMm: 25,
+  diameterMm: 25.4,
   centerThicknessMm: 5,
 }
 
@@ -107,7 +107,7 @@ export function instantiateFromDatabaseEntry(entry: LensDatabaseEntry, xMm: numb
   }
 }
 
-const SEED_FOCAL_LENGTHS_MM = [50, 100, 200, 300, -50, -100, -200, -300]
+const SEED_FOCAL_LENGTHS_MM = [50, 100, 250, 500, -50, -100, -250, -500]
 
 export const DEFAULT_LENS_DATABASE: LensDatabaseEntry[] = SEED_FOCAL_LENGTHS_MM.map((focalLengthMm) => ({
   id: nextId(),

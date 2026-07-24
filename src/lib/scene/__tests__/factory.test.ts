@@ -6,7 +6,7 @@ describe('createLensDatabaseEntry', () => {
   it('creates a thin lens entry with default shape values', () => {
     const entry = createLensDatabaseEntry('thin-lens') as ThinLensDatabaseEntry
     expect(entry.kind).toBe('thin-lens')
-    expect(entry.diameterMm).toBe(25)
+    expect(entry.diameterMm).toBe(25.4)
     expect(entry.focalLengthMm).toBe(100)
     expect(entry.id).toBeTruthy()
   })
@@ -80,6 +80,6 @@ describe('DEFAULT_LENS_DATABASE', () => {
     const focalLengths = DEFAULT_LENS_DATABASE.map((e) => (e as ThinLensDatabaseEntry).focalLengthMm).sort(
       (a, b) => a - b,
     )
-    expect(focalLengths).toEqual([-300, -200, -100, -50, 50, 100, 200, 300])
+    expect(focalLengths).toEqual([-500, -250, -100, -50, 50, 100, 250, 500])
   })
 })

@@ -1,5 +1,6 @@
 import type { DragEvent, MouseEvent } from 'react'
 import { createLensDatabaseEntry } from '../../lib/scene/factory'
+import { PlusIcon } from '../icons/PlusIcon'
 import { TrashIcon } from '../icons/TrashIcon'
 import { Panel } from '../layout/Panel'
 import { useSceneStore } from '../../state/sceneStore'
@@ -31,14 +32,6 @@ export function LensDatabasePanel() {
 
   return (
     <Panel title="Lens Database" className="lens-database-panel">
-      <div className="lens-db-new-buttons">
-        <button type="button" className="header-button" onClick={() => onNew('thin-lens')}>
-          New thin lens
-        </button>
-        <button type="button" className="header-button" onClick={() => onNew('thick-lens')}>
-          New thick lens
-        </button>
-      </div>
       {lensDatabase.map((entry) => (
         <div
           key={entry.id}
@@ -60,6 +53,16 @@ export function LensDatabasePanel() {
           </button>
         </div>
       ))}
+      <div className="lens-db-new-buttons">
+        <button type="button" className="header-button" onClick={() => onNew('thin-lens')}>
+          <PlusIcon />
+          Thin lens
+        </button>
+        <button type="button" className="header-button" onClick={() => onNew('thick-lens')}>
+          <PlusIcon />
+          Thick lens
+        </button>
+      </div>
     </Panel>
   )
 }

@@ -194,15 +194,29 @@ body {
   border-color: var(--selection);
 }
 
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
 .palette-item {
-  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px;
   border: 1px solid var(--border);
   border-radius: 4px;
   background: var(--bg);
   color: var(--text);
-  font-size: 13px;
+  font-size: 12px;
+  text-align: center;
   cursor: grab;
-  margin-bottom: 8px;
+}
+
+.palette-item:hover {
+  border-color: var(--accent);
 }
 
 .palette-item:active {
@@ -357,11 +371,11 @@ body {
   background: var(--bg);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
   .sidebar-column {
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 260px;
     flex-shrink: 0;
     padding: 16px;
     overflow-y: auto;
@@ -388,11 +402,11 @@ body {
     order: 1;
   }
 
-  .sidebar-column .lens-database-panel {
+  .sidebar-column .beam-settings-panel {
     order: 2;
   }
 
-  .sidebar-column .beam-settings-panel {
+  .sidebar-column .lens-database-panel {
     order: 3;
   }
 
@@ -461,19 +475,16 @@ body {
 }
 
 .beam-envelope .sigma-1.band {
-  fill: rgba(var(--beam-red), 0.4);
-  stroke: rgb(var(--beam-red));
-  stroke-width: 1.5;
+  fill: rgba(var(--beam-red), 0.6);
+  stroke: none;
 }
 
 .beam-envelope .sigma-2.band {
-  fill: rgba(var(--beam-red), 0.22);
-  stroke: rgba(var(--beam-red), 0.75);
+  fill: rgba(var(--beam-red), 0.33);
 }
 
 .beam-envelope .sigma-3.band {
-  fill: rgba(var(--beam-red), 0.1);
-  stroke: rgba(var(--beam-red), 0.45);
+  fill: rgba(var(--beam-red), 0.2);
 }
 
 .axes .gridlines-x line,

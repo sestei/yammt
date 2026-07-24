@@ -10,15 +10,15 @@ function App() {
   return (
     <div id="app-shell">
       <header>
-        <h1>YAMMT - Yet Another Mode-Matching Tool</h1>
+        <h1>YaMMT - Yet Another Mode-Matching Tool</h1>
         <FileControls />
       </header>
       <div className="app-body">
         <div className="sidebar-column">
           <aside className="sidebar">
             <ComponentPalette />
-            <LensDatabasePanel />
             <BeamSettingsPanel />
+            <LensDatabasePanel />
             <ViewportSettingsPanel />
           </aside>
           <aside className="sidebar sidebar-right">
