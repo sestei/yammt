@@ -1,18 +1,93 @@
-import type { ChangeEvent } from 'react'
-import { checkThickLensGeometry } from '../../lib/optics/thickLensGeometry'
+import type { ChangeEvent, ReactNode } from 'react'
+import { buildComponentFromDatabaseEntry } from '../../lib/scene/placement'
 import { isXRangeFreeOfLenses } from '../../lib/scene/placeholderCollision'
+import { getRightXMm } from '../../lib/scene/positions'
 import { mmToUnit, unitLabel, unitToMm } from '../../lib/units/length'
+import { PlusIcon } from '../icons/PlusIcon'
+import { TrashIcon } from '../icons/TrashIcon'
 import { Panel } from '../layout/Panel'
-import { useSelectedComponent } from '../../state/selectors'
+import { useSelectedComponent, useSelectedLensDatabaseEntry } from '../../state/selectors'
 import { useSceneStore } from '../../state/sceneStore'
 import { AnalyzerReadout } from './AnalyzerReadout'
 import { GroupSelector } from './GroupSelector'
 import { NumberField } from './NumberField'
 import { PositionAndLockFields } from './PositionAndLockFields'
-import { RocField } from './RocField'
+import { ThickLensShapeFields } from './ThickLensShapeFields'
+import { ThinLensShapeFields } from './ThinLensShapeFields'
+
+const NEW_COMPONENT_GAP_MM = 10
+
+function IconButton({
+  title,
+  onClick,
+  children,
+}: {
+  title: string
+  onClick: () => void
+  children: ReactNode
+}) {
+  return (
+    <button type="button" className="icon-button" title={title} aria-label={title} onClick={onClick}>
+      {children}
+    </button>
+  )
+}
+
+function LensDatabaseEntryEditor() {
+  const entry = useSelectedLensDatabaseEntry()
+  const components = useSceneStore((s) => s.components)
+  const updateDatabaseEntry = useSceneStore((s) => s.updateDatabaseEntry)
+  const removeDatabaseEntry = useSceneStore((s) => s.removeDatabaseEntry)
+  const addComponent = useSceneStore((s) => s.addComponent)
+  const select = useSceneStore((s) => s.select)
+
+  if (!entry) return null
+
+  function handleAddToGraph() {
+    if (!entry) return
+    const rightmostMm = components.length > 0 ? Math.max(...components.map(getRightXMm)) : undefined
+    const xMm = rightmostMm !== undefined ? rightmostMm + NEW_COMPONENT_GAP_MM : 0
+    const component = buildComponentFromDatabaseEntry(entry, xMm, components)
+    if (!component) return
+    addComponent(component)
+    select(component.id)
+  }
+
+  const headerButtons = (
+    <>
+      <IconButton title="Add to graph" onClick={handleAddToGraph}>
+        <PlusIcon />
+      </IconButton>
+      <IconButton title="Remove from database" onClick={() => removeDatabaseEntry(entry.id)}>
+        <TrashIcon />
+      </IconButton>
+    </>
+  )
+
+  return (
+    <Panel title="Properties" extra={headerButtons} className="properties-panel">
+      <label>
+        Name
+        <input
+          type="text"
+          value={entry.name}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => updateDatabaseEntry(entry.id, { name: e.target.value })}
+        />
+      </label>
+
+      {entry.kind === 'thin-lens' && (
+        <ThinLensShapeFields shape={entry} onChange={(patch) => updateDatabaseEntry(entry.id, patch)} />
+      )}
+      {entry.kind === 'thick-lens' && (
+        <ThickLensShapeFields shape={entry} onChange={(patch) => updateDatabaseEntry(entry.id, patch)} />
+      )}
+    </Panel>
+  )
+}
 
 export function PropertiesPanel() {
   const selected = useSelectedComponent()
+  const selectedEntry = useSelectedLensDatabaseEntry()
   const components = useSceneStore((s) => s.components)
   const xUnit = useSceneStore((s) => s.viewport.xUnit)
   const holeSpacing = useSceneStore((s) => s.viewport.holeSpacing)
@@ -20,6 +95,10 @@ export function PropertiesPanel() {
   const toggleLock = useSceneStore((s) => s.toggleLock)
   const setGroup = useSceneStore((s) => s.setGroup)
   const removeComponent = useSceneStore((s) => s.removeComponent)
+
+  if (selectedEntry) {
+    return <LensDatabaseEntryEditor />
+  }
 
   if (!selected) {
     return (
@@ -30,24 +109,9 @@ export function PropertiesPanel() {
   }
 
   const deleteButton = (
-    <button
-      type="button"
-      className="icon-button"
-      title="Delete component"
-      aria-label="Delete component"
-      onClick={() => removeComponent(selected.id)}
-    >
-      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-        <path
-          d="M3 4h10M6.5 4V2.5h3V4M4.5 4l.5 9.5a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1L11.5 4"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </button>
+    <IconButton title="Delete component" onClick={() => removeComponent(selected.id)}>
+      <TrashIcon />
+    </IconButton>
   )
 
   return (
@@ -73,62 +137,12 @@ export function PropertiesPanel() {
       )}
 
       {selected.kind === 'thin-lens' && (
-        <>
-          <NumberField
-            label="Diameter (mm)"
-            value={selected.diameterMm}
-            min={0}
-            onCommit={(diameterMm) => updateComponent(selected.id, { diameterMm })}
-          />
-          <NumberField
-            label="Focal length (mm)"
-            value={selected.focalLengthMm}
-            isValid={(v) => v !== 0}
-            onCommit={(focalLengthMm) => updateComponent(selected.id, { focalLengthMm })}
-          />
-        </>
+        <ThinLensShapeFields shape={selected} onChange={(patch) => updateComponent(selected.id, patch)} />
       )}
 
-      {selected.kind === 'thick-lens' &&
-        (() => {
-          const geometryIssue = checkThickLensGeometry(selected)
-          return (
-            <>
-              <NumberField
-                label="Diameter (mm)"
-                value={selected.diameterMm}
-                min={0}
-                warn={geometryIssue.kind === 'aperture-exceeds-roc'}
-                onCommit={(diameterMm) => updateComponent(selected.id, { diameterMm })}
-              />
-              <NumberField
-                label="Center thickness (mm)"
-                value={selected.centerThicknessMm}
-                min={0}
-                warn={geometryIssue.kind === 'surfaces-cross'}
-                onCommit={(centerThicknessMm) => updateComponent(selected.id, { centerThicknessMm })}
-              />
-              <NumberField
-                label="Refractive index"
-                value={selected.refractiveIndex}
-                min={1}
-                onCommit={(refractiveIndex) => updateComponent(selected.id, { refractiveIndex })}
-              />
-              <RocField
-                label="Left ROC (mm)"
-                value={selected.leftRocMm}
-                warn={geometryIssue.kind === 'aperture-exceeds-roc' && geometryIssue.surface === 'left'}
-                onCommit={(leftRocMm) => updateComponent(selected.id, { leftRocMm })}
-              />
-              <RocField
-                label="Right ROC (mm)"
-                value={selected.rightRocMm}
-                warn={geometryIssue.kind === 'aperture-exceeds-roc' && geometryIssue.surface === 'right'}
-                onCommit={(rightRocMm) => updateComponent(selected.id, { rightRocMm })}
-              />
-            </>
-          )
-        })()}
+      {selected.kind === 'thick-lens' && (
+        <ThickLensShapeFields shape={selected} onChange={(patch) => updateComponent(selected.id, patch)} />
+      )}
 
       {selected.kind === 'analyzer' && <AnalyzerReadout component={selected} />}
 

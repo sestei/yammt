@@ -209,6 +209,49 @@ body {
   cursor: grabbing;
 }
 
+.lens-db-new-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.lens-db-new-buttons .header-button {
+  flex: 1;
+  justify-content: center;
+}
+
+.lens-db-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  cursor: grab;
+  margin-bottom: 6px;
+}
+
+.lens-db-item:active {
+  cursor: grabbing;
+}
+
+.lens-db-item.selected {
+  border-color: var(--selection);
+}
+
+.lens-db-item-name {
+  flex: 1;
+}
+
+.lens-db-item-kind {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
 .panel + .panel {
   margin-top: 16px;
   padding-top: 16px;
@@ -257,7 +300,7 @@ body {
 }
 
 .icon-button {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 24px;
@@ -345,12 +388,16 @@ body {
     order: 1;
   }
 
-  .sidebar-column .beam-settings-panel {
+  .sidebar-column .lens-database-panel {
     order: 2;
   }
 
-  .sidebar-column .viewport-settings-panel {
+  .sidebar-column .beam-settings-panel {
     order: 3;
+  }
+
+  .sidebar-column .viewport-settings-panel {
+    order: 4;
   }
 }
 

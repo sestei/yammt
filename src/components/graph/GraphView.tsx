@@ -1,8 +1,9 @@
 import { useMemo, type DragEvent } from 'react'
 import { getSecondaryAxisSpec } from '../../lib/graph/secondaryAxis'
-import { buildComponentAt, isPaletteComponentKind } from '../../lib/scene/placement'
+import { buildComponentAt, buildComponentFromDatabaseEntry, isPaletteComponentKind } from '../../lib/scene/placement'
 import { autoYUnit } from '../../lib/units/length'
 import { PALETTE_DRAG_TYPE } from '../palette/ComponentPalette'
+import { LENS_DATABASE_DRAG_TYPE } from '../palette/LensDatabasePanel'
 import { useBeamProfile } from '../../state/selectors'
 import { useSceneStore } from '../../state/sceneStore'
 import { Axes } from './Axes'
@@ -20,6 +21,7 @@ import { useViewportGestures } from './useViewportGestures'
 export function GraphView() {
   const viewport = useSceneStore((s) => s.viewport)
   const components = useSceneStore((s) => s.components)
+  const lensDatabase = useSceneStore((s) => s.lensDatabase)
   const addComponent = useSceneStore((s) => s.addComponent)
   const select = useSceneStore((s) => s.select)
   const profile = useBeamProfile()
@@ -63,20 +65,30 @@ export function GraphView() {
   const yUnit = autoYUnit(yMaxMm)
 
   function onDragOver(e: DragEvent<HTMLDivElement>) {
-    if (e.dataTransfer.types.includes(PALETTE_DRAG_TYPE)) {
+    if (e.dataTransfer.types.includes(PALETTE_DRAG_TYPE) || e.dataTransfer.types.includes(LENS_DATABASE_DRAG_TYPE)) {
       e.preventDefault()
       e.dataTransfer.dropEffect = 'copy'
     }
   }
 
   function onDrop(e: DragEvent<HTMLDivElement>) {
-    const kind = e.dataTransfer.getData(PALETTE_DRAG_TYPE)
-    if (!isPaletteComponentKind(kind)) return
-    e.preventDefault()
     const rect = e.currentTarget.getBoundingClientRect()
     const offsetX = e.clientX - rect.left
     const xMm = scales.svgToX(offsetX)
-    const component = buildComponentAt(kind, xMm, components)
+
+    const kind = e.dataTransfer.getData(PALETTE_DRAG_TYPE)
+    const entryId = e.dataTransfer.getData(LENS_DATABASE_DRAG_TYPE)
+
+    let component = null
+    if (isPaletteComponentKind(kind)) {
+      component = buildComponentAt(kind, xMm, components)
+    } else if (entryId) {
+      const entry = lensDatabase.find((dbEntry) => dbEntry.id === entryId)
+      if (entry) component = buildComponentFromDatabaseEntry(entry, xMm, components)
+    } else {
+      return
+    }
+    e.preventDefault()
     if (!component) return
 
     addComponent(component)

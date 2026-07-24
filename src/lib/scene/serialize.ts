@@ -25,7 +25,10 @@ function migrateScene(raw: unknown): SceneDocument {
       assert(typeof doc.beam === 'object' && doc.beam !== null, 'missing or invalid "beam"')
       assert(Array.isArray(doc.components), 'missing or invalid "components"')
       assert(typeof doc.viewport === 'object' && doc.viewport !== null, 'missing or invalid "viewport"')
-      return doc as unknown as SceneDocument
+      // Additive field: older save files predate the lens database and simply don't have it.
+      const lensDatabase = 'lensDatabase' in doc ? doc.lensDatabase : []
+      assert(Array.isArray(lensDatabase), 'invalid "lensDatabase"')
+      return { ...doc, lensDatabase } as unknown as SceneDocument
     }
     default:
       throw new Error(`Invalid scene file: unsupported schemaVersion "${String(doc.schemaVersion)}"`)

@@ -1,4 +1,4 @@
-import type { BeamAnalyzer, Placeholder, ThickLens, ThinLens } from './types'
+import type { BeamAnalyzer, LensDatabaseEntry, Placeholder, SceneComponent, ThickLens, ThinLens } from './types'
 
 const DEFAULT_PLACEHOLDER_WIDTH_MM = 10
 
@@ -10,7 +10,30 @@ function nextId(): string {
   return `component-${fallbackCounter}`
 }
 
-export function createThinLens(xMm: number): ThinLens {
+interface ThinLensShape {
+  diameterMm: number
+  focalLengthMm: number
+}
+
+interface ThickLensShape {
+  refractiveIndex: number
+  leftRocMm: number
+  rightRocMm: number
+  diameterMm: number
+  centerThicknessMm: number
+}
+
+const DEFAULT_THIN_LENS_SHAPE: ThinLensShape = { diameterMm: 25, focalLengthMm: 100 }
+
+const DEFAULT_THICK_LENS_SHAPE: ThickLensShape = {
+  refractiveIndex: 1.5,
+  leftRocMm: 50,
+  rightRocMm: -50,
+  diameterMm: 25,
+  centerThicknessMm: 5,
+}
+
+export function createThinLens(xMm: number, shape: ThinLensShape = DEFAULT_THIN_LENS_SHAPE): ThinLens {
   return {
     id: nextId(),
     kind: 'thin-lens',
@@ -18,12 +41,11 @@ export function createThinLens(xMm: number): ThinLens {
     locked: false,
     group: 0,
     xMm,
-    diameterMm: 25,
-    focalLengthMm: 100,
+    ...shape,
   }
 }
 
-export function createThickLens(xMm: number): ThickLens {
+export function createThickLens(xMm: number, shape: ThickLensShape = DEFAULT_THICK_LENS_SHAPE): ThickLens {
   return {
     id: nextId(),
     kind: 'thick-lens',
@@ -31,11 +53,7 @@ export function createThickLens(xMm: number): ThickLens {
     locked: false,
     group: 0,
     xMm,
-    refractiveIndex: 1.5,
-    leftRocMm: 50,
-    rightRocMm: -50,
-    diameterMm: 25,
-    centerThicknessMm: 5,
+    ...shape,
   }
 }
 
@@ -61,3 +79,40 @@ export function createPlaceholder(xMm: number): Placeholder {
     xEndMm: xMm + DEFAULT_PLACEHOLDER_WIDTH_MM / 2,
   }
 }
+
+export function createLensDatabaseEntry(kind: 'thin-lens' | 'thick-lens'): LensDatabaseEntry {
+  if (kind === 'thin-lens') {
+    return { id: nextId(), name: 'New thin lens', kind: 'thin-lens', ...DEFAULT_THIN_LENS_SHAPE }
+  }
+  return { id: nextId(), name: 'New thick lens', kind: 'thick-lens', ...DEFAULT_THICK_LENS_SHAPE }
+}
+
+/** Builds a fresh, independent graph component from a database entry's shape — no ongoing link to the entry. */
+export function instantiateFromDatabaseEntry(entry: LensDatabaseEntry, xMm: number): SceneComponent {
+  if (entry.kind === 'thin-lens') {
+    return {
+      ...createThinLens(xMm, { diameterMm: entry.diameterMm, focalLengthMm: entry.focalLengthMm }),
+      label: entry.name,
+    }
+  }
+  return {
+    ...createThickLens(xMm, {
+      refractiveIndex: entry.refractiveIndex,
+      leftRocMm: entry.leftRocMm,
+      rightRocMm: entry.rightRocMm,
+      diameterMm: entry.diameterMm,
+      centerThicknessMm: entry.centerThicknessMm,
+    }),
+    label: entry.name,
+  }
+}
+
+const SEED_FOCAL_LENGTHS_MM = [50, 100, 200, 300, -50, -100, -200, -300]
+
+export const DEFAULT_LENS_DATABASE: LensDatabaseEntry[] = SEED_FOCAL_LENGTHS_MM.map((focalLengthMm) => ({
+  id: nextId(),
+  name: `f=${focalLengthMm}mm`,
+  kind: 'thin-lens',
+  diameterMm: 25,
+  focalLengthMm,
+}))

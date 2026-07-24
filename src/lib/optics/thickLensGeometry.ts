@@ -1,5 +1,7 @@
 import type { ThickLens } from '../scene/types'
 
+type ThickLensShape = Pick<ThickLens, 'diameterMm' | 'leftRocMm' | 'rightRocMm' | 'centerThicknessMm'>
+
 /**
  * Sag (mm) of a spherical surface at the given half-aperture height, in the
  * standard sign convention (R>0 -> positive/+x sag). Null if the aperture
@@ -21,7 +23,7 @@ export type ThickLensGeometryIssue =
   /** Both surfaces individually fit the aperture, but centerThickness is too small for them not to intersect. */
   | { kind: 'surfaces-cross'; edgeThicknessMm: number }
 
-export function checkThickLensGeometry(component: ThickLens): ThickLensGeometryIssue {
+export function checkThickLensGeometry(component: ThickLensShape): ThickLensGeometryIssue {
   const halfApertureMm = component.diameterMm / 2
 
   const leftSag = surfaceSagMm(component.leftRocMm, halfApertureMm)

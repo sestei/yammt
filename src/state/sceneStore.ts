@@ -1,8 +1,16 @@
 import { create } from 'zustand'
 import { rayleighRangeMm, waistMm, type GaussianBeam } from '../lib/optics/beam'
+import { DEFAULT_LENS_DATABASE } from '../lib/scene/factory'
 import { isXRangeFreeOfLenses, isXRangeFreeOfPlaceholders } from '../lib/scene/placeholderCollision'
 import { getLeftXMm, getRightXMm, shiftXMm, withLeftXMm } from '../lib/scene/positions'
-import type { ComponentId, GroupId, SceneComponent, SceneDocument, Viewport } from '../lib/scene/types'
+import type {
+  ComponentId,
+  GroupId,
+  LensDatabaseEntry,
+  SceneComponent,
+  SceneDocument,
+  Viewport,
+} from '../lib/scene/types'
 
 const DEFAULT_BEAM: GaussianBeam = {
   wavelengthNm: 1064,
@@ -49,8 +57,10 @@ interface SceneStoreState {
   beam: GaussianBeam
   components: SceneComponent[]
   viewport: Viewport
+  lensDatabase: LensDatabaseEntry[]
 
   selectedComponentId: ComponentId | null
+  selectedLensDatabaseEntryId: string | null
   dragState: DragState | null
 
   setBeam(patch: Partial<GaussianBeam>): void
@@ -61,6 +71,10 @@ interface SceneStoreState {
   setGroup(id: ComponentId, group: GroupId): void
   toggleLock(id: ComponentId): void
   select(id: ComponentId | null): void
+  addDatabaseEntry(entry: LensDatabaseEntry): void
+  updateDatabaseEntry(id: string, patch: Partial<LensDatabaseEntry>): void
+  removeDatabaseEntry(id: string): void
+  selectDatabaseEntry(id: string | null): void
   setDragState(state: DragState | null): void
   setViewport(patch: Partial<Viewport>): void
   loadScene(doc: SceneDocument): void
@@ -70,8 +84,10 @@ export const useSceneStore = create<SceneStoreState>((set, get) => ({
   beam: DEFAULT_BEAM,
   components: [],
   viewport: defaultViewport(DEFAULT_BEAM),
+  lensDatabase: DEFAULT_LENS_DATABASE,
 
   selectedComponentId: null,
+  selectedLensDatabaseEntryId: null,
   dragState: null,
 
   setBeam(patch) {
@@ -134,7 +150,28 @@ export const useSceneStore = create<SceneStoreState>((set, get) => ({
   },
 
   select(id) {
-    set({ selectedComponentId: id })
+    set({ selectedComponentId: id, selectedLensDatabaseEntryId: null })
+  },
+
+  addDatabaseEntry(entry) {
+    set((s) => ({ lensDatabase: [...s.lensDatabase, entry] }))
+  },
+
+  updateDatabaseEntry(id, patch) {
+    set((s) => ({
+      lensDatabase: s.lensDatabase.map((e) => (e.id === id ? ({ ...e, ...patch } as LensDatabaseEntry) : e)),
+    }))
+  },
+
+  removeDatabaseEntry(id) {
+    set((s) => ({
+      lensDatabase: s.lensDatabase.filter((e) => e.id !== id),
+      selectedLensDatabaseEntryId: s.selectedLensDatabaseEntryId === id ? null : s.selectedLensDatabaseEntryId,
+    }))
+  },
+
+  selectDatabaseEntry(id) {
+    set({ selectedLensDatabaseEntryId: id, selectedComponentId: null })
   },
 
   setDragState(state) {
@@ -150,13 +187,15 @@ export const useSceneStore = create<SceneStoreState>((set, get) => ({
       beam: doc.beam,
       components: doc.components,
       viewport: doc.viewport,
+      lensDatabase: doc.lensDatabase,
       selectedComponentId: null,
+      selectedLensDatabaseEntryId: null,
       dragState: null,
     })
   },
 }))
 
 export function exportScene(): SceneDocument {
-  const { beam, components, viewport } = useSceneStore.getState()
-  return { schemaVersion: 1, beam, components, viewport }
+  const { beam, components, viewport, lensDatabase } = useSceneStore.getState()
+  return { schemaVersion: 1, beam, components, viewport, lensDatabase }
 }

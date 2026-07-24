@@ -43,6 +43,28 @@ export interface Placeholder extends ComponentBase {
 
 export type SceneComponent = ThinLens | ThickLens | BeamAnalyzer | Placeholder
 
+interface LensDatabaseEntryBase {
+  id: string
+  name: string
+}
+
+export interface ThinLensDatabaseEntry extends LensDatabaseEntryBase {
+  kind: 'thin-lens'
+  diameterMm: number
+  focalLengthMm: number
+}
+
+export interface ThickLensDatabaseEntry extends LensDatabaseEntryBase {
+  kind: 'thick-lens'
+  refractiveIndex: number
+  leftRocMm: number
+  rightRocMm: number
+  diameterMm: number
+  centerThicknessMm: number
+}
+
+export type LensDatabaseEntry = ThinLensDatabaseEntry | ThickLensDatabaseEntry
+
 export type LengthUnit = 'mm' | 'cm' | 'm' | 'holes'
 export type HoleSpacing = '1inch' | '25mm'
 
@@ -62,4 +84,5 @@ export interface SceneDocument {
   beam: GaussianBeam
   components: SceneComponent[]
   viewport: Viewport
+  lensDatabase: LensDatabaseEntry[]
 }

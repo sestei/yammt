@@ -1,6 +1,7 @@
 import { GraphView } from './components/graph/GraphView'
 import { FileControls } from './components/layout/FileControls'
 import { ComponentPalette } from './components/palette/ComponentPalette'
+import { LensDatabasePanel } from './components/palette/LensDatabasePanel'
 import { BeamSettingsPanel } from './components/panels/BeamSettingsPanel'
 import { PropertiesPanel } from './components/panels/PropertiesPanel'
 import { ViewportSettingsPanel } from './components/panels/ViewportSettingsPanel'
@@ -16,6 +17,7 @@ function App() {
         <div className="sidebar-column">
           <aside className="sidebar">
             <ComponentPalette />
+            <LensDatabasePanel />
             <BeamSettingsPanel />
             <ViewportSettingsPanel />
           </aside>

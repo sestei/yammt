@@ -1,7 +1,7 @@
-import { createAnalyzer, createPlaceholder, createThickLens, createThinLens } from './factory'
+import { createAnalyzer, createPlaceholder, createThickLens, createThinLens, instantiateFromDatabaseEntry } from './factory'
 import { isXRangeFreeOfLenses, isXRangeFreeOfPlaceholders } from './placeholderCollision'
 import { getLeftXMm, getRightXMm } from './positions'
-import type { SceneComponent } from './types'
+import type { LensDatabaseEntry, SceneComponent } from './types'
 
 export type PaletteComponentKind = 'thin-lens' | 'thick-lens' | 'analyzer' | 'placeholder'
 
@@ -16,16 +16,26 @@ export function isPaletteComponentKind(kind: string): kind is PaletteComponentKi
   return kind in COMPONENT_FACTORIES
 }
 
+function isPlacementFree(component: SceneComponent, components: SceneComponent[]): boolean {
+  const left = getLeftXMm(component)
+  const right = getRightXMm(component)
+  return component.kind === 'placeholder'
+    ? isXRangeFreeOfLenses(components, left, right)
+    : isXRangeFreeOfPlaceholders(components, left, right)
+}
+
 /** Builds a component of `kind` at `xMm`, validated against collision rules. Returns null if occupied. */
 export function buildComponentAt(kind: PaletteComponentKind, xMm: number, components: SceneComponent[]): SceneComponent | null {
   const component = COMPONENT_FACTORIES[kind](xMm)
+  return isPlacementFree(component, components) ? component : null
+}
 
-  const left = getLeftXMm(component)
-  const right = getRightXMm(component)
-  const isFree =
-    component.kind === 'placeholder'
-      ? isXRangeFreeOfLenses(components, left, right)
-      : isXRangeFreeOfPlaceholders(components, left, right)
-
-  return isFree ? component : null
+/** Builds a component from a lens database entry at `xMm`, validated against collision rules. Returns null if occupied. */
+export function buildComponentFromDatabaseEntry(
+  entry: LensDatabaseEntry,
+  xMm: number,
+  components: SceneComponent[],
+): SceneComponent | null {
+  const component = instantiateFromDatabaseEntry(entry, xMm)
+  return isPlacementFree(component, components) ? component : null
 }

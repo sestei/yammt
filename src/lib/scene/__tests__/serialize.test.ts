@@ -57,6 +57,19 @@ function fullSceneDocument(): SceneDocument {
       yZoom: 2,
       secondaryAxis: 'gouy-phase',
     },
+    lensDatabase: [
+      { id: 'd1', name: 'f=100mm', kind: 'thin-lens', diameterMm: 25, focalLengthMm: 100 },
+      {
+        id: 'd2',
+        name: 'Thick lens',
+        kind: 'thick-lens',
+        refractiveIndex: 1.5,
+        leftRocMm: 50,
+        rightRocMm: -50,
+        diameterMm: 25,
+        centerThicknessMm: 5,
+      },
+    ],
   }
 }
 
@@ -78,5 +91,16 @@ describe('serializeScene / deserializeScene', () => {
 
   it('throws on input that is not a JSON object', () => {
     expect(() => deserializeScene('42')).toThrow(/not a JSON object/)
+  })
+
+  it('defaults lensDatabase to [] for older save files that predate it', () => {
+    const { lensDatabase: _omit, ...withoutDatabase } = fullSceneDocument()
+    const json = JSON.stringify(withoutDatabase)
+    expect(deserializeScene(json).lensDatabase).toEqual([])
+  })
+
+  it('throws a clear error when lensDatabase is present but not an array', () => {
+    const json = JSON.stringify({ ...fullSceneDocument(), lensDatabase: 'not-an-array' })
+    expect(() => deserializeScene(json)).toThrow(/lensDatabase/)
   })
 })
