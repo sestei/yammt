@@ -1,5 +1,5 @@
 import type { ChangeEvent } from 'react'
-import type { HoleSpacing, LengthUnit } from '../../lib/scene/types'
+import type { HoleSpacing, LengthUnit, Viewport } from '../../lib/scene/types'
 import { Panel } from '../layout/Panel'
 import { useSceneStore } from '../../state/sceneStore'
 
@@ -15,6 +15,10 @@ export function ViewportSettingsPanel() {
 
   function onHoleSpacingChange(e: ChangeEvent<HTMLSelectElement>) {
     setViewport({ holeSpacing: e.target.value as HoleSpacing })
+  }
+
+  function onSecondaryAxisChange(e: ChangeEvent<HTMLSelectElement>) {
+    setViewport({ secondaryAxis: e.target.value as Viewport['secondaryAxis'] })
   }
 
   return (
@@ -38,6 +42,14 @@ export function ViewportSettingsPanel() {
           </select>
         </label>
       )}
+      <label>
+        Secondary y-axis
+        <select value={viewport.secondaryAxis} onChange={onSecondaryAxisChange}>
+          <option value="none">None</option>
+          <option value="gouy-phase">Gouy phase</option>
+          <option value="curvature">Wavefront curvature</option>
+        </select>
+      </label>
     </Panel>
   )
 }

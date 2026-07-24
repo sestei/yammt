@@ -19,6 +19,7 @@
   --lens-stroke: #b8bcc4;
   --warning: 245, 166, 35;
   --analyzer: #2dd4bf;
+  --secondary-axis: #a78bfa;
 }
 
 body {
@@ -446,9 +447,25 @@ body {
   text-anchor: start;
 }
 
+.axes .tick-labels-y-secondary text {
+  fill: var(--secondary-axis);
+  font-size: 13px;
+  text-anchor: end;
+}
+
 .axes .axis-unit-label {
   fill: var(--tick-label);
   font-size: 13px;
+}
+
+.axes .axis-unit-label-secondary {
+  fill: var(--secondary-axis);
+  text-anchor: end;
+}
+
+.secondary-axis-curve {
+  stroke: var(--secondary-axis);
+  stroke-width: 1.5;
 }
 
 .component {

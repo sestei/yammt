@@ -1,4 +1,5 @@
 import { useMemo, type DragEvent } from 'react'
+import { getSecondaryAxisSpec } from '../../lib/graph/secondaryAxis'
 import { buildComponentAt, isPaletteComponentKind } from '../../lib/scene/placement'
 import { autoYUnit } from '../../lib/units/length'
 import { PALETTE_DRAG_TYPE } from '../palette/ComponentPalette'
@@ -8,7 +9,8 @@ import { Axes } from './Axes'
 import { BeamEnvelope } from './BeamEnvelope'
 import { ComponentsLayer } from './ComponentsLayer'
 import { OutputBeamInfo } from './OutputBeamInfo'
-import { createScales } from './scales'
+import { SecondaryAxisCurve } from './SecondaryAxisCurve'
+import { createScales, createSecondaryScale } from './scales'
 import { useContainerSize } from './useContainerSize'
 import { useDeleteKeyboardShortcut } from './useDeleteKeyboardShortcut'
 import { useGroupKeyboardShortcut } from './useGroupKeyboardShortcut'
@@ -36,6 +38,19 @@ export function GraphView() {
   const scales = useMemo(
     () => createScales(viewport.xMinMm, viewport.xMaxMm, yMaxMm || 1, width, height),
     [viewport.xMinMm, viewport.xMaxMm, yMaxMm, width, height],
+  )
+
+  const secondarySpec = useMemo(
+    () =>
+      viewport.secondaryAxis === 'none'
+        ? null
+        : getSecondaryAxisSpec(viewport.secondaryAxis, viewport.xMinMm, viewport.xMaxMm),
+    [viewport.secondaryAxis, viewport.xMinMm, viewport.xMaxMm],
+  )
+
+  const secondaryScale = useMemo(
+    () => (secondarySpec ? createSecondaryScale(secondarySpec.domainMin, secondarySpec.domainMax, height) : null),
+    [secondarySpec, height],
   )
 
   const { onPointerDown, onPointerMove, onPointerUp, isDragging } = useViewportGestures(
@@ -101,8 +116,13 @@ export function GraphView() {
             yUnit={yUnit}
             xUnit={viewport.xUnit}
             holeSpacing={viewport.holeSpacing}
+            secondarySpec={secondarySpec ?? undefined}
+            secondaryScale={secondaryScale ?? undefined}
           />
           <BeamEnvelope profile={profile} scales={scales} />
+          {secondarySpec && secondaryScale && (
+            <SecondaryAxisCurve profile={profile} scales={scales} secondaryScale={secondaryScale} spec={secondarySpec} />
+          )}
           <ComponentsLayer
             components={components}
             scales={scales}

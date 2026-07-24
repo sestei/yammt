@@ -1,6 +1,7 @@
 import { mmToDisplayY, mmToUnit, niceTickInterval, unitLabel } from '../../lib/units/length'
+import type { SecondaryAxisSpec } from '../../lib/graph/secondaryAxis'
 import type { HoleSpacing, LengthUnit } from '../../lib/scene/types'
-import type { Scales } from './scales'
+import type { Scales, SecondaryScale } from './scales'
 
 interface AxesProps {
   scales: Scales
@@ -10,6 +11,8 @@ interface AxesProps {
   yUnit: 'mm' | 'um'
   xUnit: LengthUnit
   holeSpacing: HoleSpacing
+  secondarySpec?: SecondaryAxisSpec
+  secondaryScale?: SecondaryScale
 }
 
 function xTicksMm(xMinMm: number, xMaxMm: number, xUnit: LengthUnit, holeSpacing: HoleSpacing): number[] {
@@ -37,9 +40,33 @@ function yTicksMm(yMaxMm: number, yUnit: 'mm' | 'um'): number[] {
   return ticks
 }
 
-export function Axes({ scales, xMinMm, xMaxMm, yMaxMm, yUnit, xUnit, holeSpacing }: AxesProps) {
+/** Ticks spanning [domainMin, domainMax], spaced per niceTickInterval. */
+function secondaryTicks(domainMin: number, domainMax: number): number[] {
+  const step = niceTickInterval(domainMax - domainMin, 4)
+  if (step <= 0) return [0]
+  const ticks: number[] = []
+  const first = Math.ceil(domainMin / step) * step
+  for (let t = first; t <= domainMax; t += step) {
+    ticks.push(t)
+  }
+  return ticks
+}
+
+export function Axes({
+  scales,
+  xMinMm,
+  xMaxMm,
+  yMaxMm,
+  yUnit,
+  xUnit,
+  holeSpacing,
+  secondarySpec,
+  secondaryScale,
+}: AxesProps) {
   const xTicks = xTicksMm(xMinMm, xMaxMm, xUnit, holeSpacing)
   const yTicks = yTicksMm(yMaxMm, yUnit)
+  const secondaryYTicks =
+    secondarySpec && secondaryScale ? secondaryTicks(secondarySpec.domainMin, secondarySpec.domainMax) : []
 
   return (
     <g className="axes">
@@ -75,6 +102,20 @@ export function Axes({ scales, xMinMm, xMaxMm, yMaxMm, yUnit, xUnit, holeSpacing
       <text className="axis-unit-label" x={4} y={12}>
         {yUnit} (radius)
       </text>
+      {secondarySpec && secondaryScale && (
+        <>
+          <g className="tick-labels-y-secondary">
+            {secondaryYTicks.map((value) => (
+              <text key={value} x={scales.width - 4} y={secondaryScale.yToSvg(value) - 3}>
+                {secondarySpec.formatTick(value)}
+              </text>
+            ))}
+          </g>
+          <text className="axis-unit-label axis-unit-label-secondary" x={scales.width - 4} y={12}>
+            {secondarySpec.unitLabel}
+          </text>
+        </>
+      )}
     </g>
   )
 }

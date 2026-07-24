@@ -29,3 +29,16 @@ export function createScales(
     },
   }
 }
+
+export interface SecondaryScale {
+  yToSvg(value: number): number
+}
+
+export function createSecondaryScale(domainMin: number, domainMax: number, height: number): SecondaryScale {
+  const span = domainMax - domainMin || 1
+  return {
+    yToSvg(value) {
+      return height - ((value - domainMin) / span) * height
+    },
+  }
+}
