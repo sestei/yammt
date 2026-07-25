@@ -1,3 +1,4 @@
+import { recoverNullRoc } from './rocRecovery'
 import type { SceneDocument } from './types'
 
 export const CURRENT_SCHEMA_VERSION = 1
@@ -27,20 +28,6 @@ export function serializeScene(doc: SceneDocument): string {
 
 function assert(condition: boolean, message: string): asserts condition {
   if (!condition) throw new Error(`Invalid scene file: ${message}`)
-}
-
-const ROC_FIELDS = ['leftRocMm', 'rightRocMm'] as const
-
-// Recovers files saved before Infinity round-tripping was fixed: a flat
-// surface's ROC was written out as `null` and needs to become Infinity again,
-// not be left as `null` (which is not a valid ROC and would produce NaN).
-function recoverNullRoc(entry: Record<string, unknown>): Record<string, unknown> {
-  if (entry.kind !== 'thick-lens') return entry
-  const fixed = { ...entry }
-  for (const field of ROC_FIELDS) {
-    if (fixed[field] === null) fixed[field] = Infinity
-  }
-  return fixed
 }
 
 /**

@@ -5,6 +5,14 @@ import type { LensDatabaseEntry, SceneComponent } from './types'
 
 export type PaletteComponentKind = 'thin-lens' | 'thick-lens' | 'analyzer' | 'placeholder'
 
+const NEW_COMPONENT_GAP_MM = 50
+
+/** Where a newly added component should land: just past the rightmost existing one, or 0 if the graph is empty. */
+export function nextPlacementXMm(components: SceneComponent[]): number {
+  if (components.length === 0) return 0
+  return Math.max(...components.map(getRightXMm)) + NEW_COMPONENT_GAP_MM
+}
+
 const COMPONENT_FACTORIES: Record<PaletteComponentKind, (xMm: number) => SceneComponent> = {
   'thin-lens': createThinLens,
   'thick-lens': createThickLens,

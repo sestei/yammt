@@ -22,7 +22,7 @@ export function ViewportSettingsPanel() {
   }
 
   return (
-    <Panel title="View" className="viewport-settings-panel">
+    <Panel title="View" className="viewport-settings-panel" defaultCollapsed>
       <label>
         X-axis units
         <select value={viewport.xUnit} onChange={onUnitChange}>

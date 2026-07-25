@@ -1,6 +1,5 @@
 import { create } from 'zustand'
 import { rayleighRangeMm, waistMm, type GaussianBeam } from '../lib/optics/beam'
-import { DEFAULT_LENS_DATABASE } from '../lib/scene/factory'
 import { isXRangeFreeOfLenses, isXRangeFreeOfPlaceholders } from '../lib/scene/placeholderCollision'
 import { getLeftXMm, getRightXMm, shiftXMm, withLeftXMm } from '../lib/scene/positions'
 import type {
@@ -20,7 +19,7 @@ const DEFAULT_BEAM: GaussianBeam = {
 
 /**
  * Fixed y-axis reference range, sized so the 3-sigma envelope at the edge of the
- * default x-range fills about half the graph height. Computed once at viewport
+ * default x-range fills about one third of the graph height. Computed once at viewport
  * creation and never auto-recomputed afterwards (only viewport.yZoom scales it) —
  * continuously autoscaling to the visible profile was distracting during pan/drag.
  */
@@ -30,7 +29,7 @@ function computeBaseYMaxMm(beam: GaussianBeam, xMinMm: number, xMaxMm: number): 
   const maxDistFromWaist = Math.max(Math.abs(xMinMm - beam.waistZMm), Math.abs(xMaxMm - beam.waistZMm))
   const maxRadiusMm = w0 * Math.sqrt(1 + (maxDistFromWaist / zR) ** 2)
   const max3SigmaMm = maxRadiusMm * 1.5
-  return max3SigmaMm * 2
+  return max3SigmaMm * 3
 }
 
 function defaultViewport(beam: GaussianBeam): Viewport {
@@ -62,6 +61,9 @@ interface SceneStoreState {
   selectedComponentId: ComponentId | null
   selectedLensDatabaseEntryId: string | null
   dragState: DragState | null
+  // Not persisted -- a bundled catalogue is a reference list, browsed
+  // alongside (not replacing) the user's own lensDatabase.
+  activeCatalogId: string | null
 
   setBeam(patch: Partial<GaussianBeam>): void
   addComponent(c: SceneComponent): void
@@ -75,6 +77,7 @@ interface SceneStoreState {
   updateDatabaseEntry(id: string, patch: Partial<LensDatabaseEntry>): void
   removeDatabaseEntry(id: string): void
   selectDatabaseEntry(id: string | null): void
+  setActiveCatalog(id: string | null): void
   setDragState(state: DragState | null): void
   setViewport(patch: Partial<Viewport>): void
   loadScene(doc: SceneDocument): void
@@ -84,11 +87,12 @@ export const useSceneStore = create<SceneStoreState>((set, get) => ({
   beam: DEFAULT_BEAM,
   components: [],
   viewport: defaultViewport(DEFAULT_BEAM),
-  lensDatabase: DEFAULT_LENS_DATABASE,
+  lensDatabase: [],
 
   selectedComponentId: null,
   selectedLensDatabaseEntryId: null,
   dragState: null,
+  activeCatalogId: null,
 
   setBeam(patch) {
     set((s) => ({ beam: { ...s.beam, ...patch } }))
@@ -175,6 +179,10 @@ export const useSceneStore = create<SceneStoreState>((set, get) => ({
     set({ selectedLensDatabaseEntryId: id, selectedComponentId: null })
   },
 
+  setActiveCatalog(id) {
+    set({ activeCatalogId: id })
+  },
+
   setDragState(state) {
     set({ dragState: state })
   },
@@ -192,6 +200,7 @@ export const useSceneStore = create<SceneStoreState>((set, get) => ({
       selectedComponentId: null,
       selectedLensDatabaseEntryId: null,
       dragState: null,
+      activeCatalogId: null,
     })
   },
 }))

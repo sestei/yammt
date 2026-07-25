@@ -5,13 +5,15 @@ export function Panel({
   children,
   extra,
   className,
+  defaultCollapsed = false,
 }: {
   title: string
   children: ReactNode
   extra?: ReactNode
   className?: string
+  defaultCollapsed?: boolean
 }) {
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(defaultCollapsed)
 
   return (
     <section className={`panel${className ? ` ${className}` : ''}${collapsed ? ' collapsed' : ''}`}>

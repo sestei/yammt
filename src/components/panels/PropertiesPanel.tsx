@@ -1,7 +1,7 @@
 import type { ChangeEvent, ReactNode } from 'react'
-import { buildComponentFromDatabaseEntry } from '../../lib/scene/placement'
+import { createDatabaseEntryFromLens } from '../../lib/scene/factory'
+import { buildComponentFromDatabaseEntry, nextPlacementXMm } from '../../lib/scene/placement'
 import { isXRangeFreeOfLenses } from '../../lib/scene/placeholderCollision'
-import { getRightXMm } from '../../lib/scene/positions'
 import { mmToUnit, unitLabel, unitToMm } from '../../lib/units/length'
 import { PlusIcon } from '../icons/PlusIcon'
 import { TrashIcon } from '../icons/TrashIcon'
@@ -14,8 +14,6 @@ import { NumberField } from './NumberField'
 import { PositionAndLockFields } from './PositionAndLockFields'
 import { ThickLensShapeFields } from './ThickLensShapeFields'
 import { ThinLensShapeFields } from './ThinLensShapeFields'
-
-const NEW_COMPONENT_GAP_MM = 10
 
 function IconButton({
   title,
@@ -45,8 +43,7 @@ function LensDatabaseEntryEditor() {
 
   function handleAddToGraph() {
     if (!entry) return
-    const rightmostMm = components.length > 0 ? Math.max(...components.map(getRightXMm)) : undefined
-    const xMm = rightmostMm !== undefined ? rightmostMm + NEW_COMPONENT_GAP_MM : 0
+    const xMm = nextPlacementXMm(components)
     const component = buildComponentFromDatabaseEntry(entry, xMm, components)
     if (!component) return
     addComponent(component)
@@ -65,7 +62,7 @@ function LensDatabaseEntryEditor() {
   )
 
   return (
-    <Panel title="Properties" extra={headerButtons} className="properties-panel">
+    <Panel key="properties-selected" title="Properties" extra={headerButtons} className="properties-panel">
       <label>
         Name
         <input
@@ -95,6 +92,7 @@ export function PropertiesPanel() {
   const toggleLock = useSceneStore((s) => s.toggleLock)
   const setGroup = useSceneStore((s) => s.setGroup)
   const removeComponent = useSceneStore((s) => s.removeComponent)
+  const addDatabaseEntry = useSceneStore((s) => s.addDatabaseEntry)
 
   if (selectedEntry) {
     return <LensDatabaseEntryEditor />
@@ -102,20 +100,30 @@ export function PropertiesPanel() {
 
   if (!selected) {
     return (
-      <Panel title="Properties" className="properties-panel">
+      <Panel key="properties-empty" title="Properties" className="properties-panel" defaultCollapsed>
         <p className="empty-state">No component selected</p>
       </Panel>
     )
   }
 
-  const deleteButton = (
-    <IconButton title="Delete component" onClick={() => removeComponent(selected.id)}>
-      <TrashIcon />
-    </IconButton>
+  const headerButtons = (
+    <>
+      {(selected.kind === 'thin-lens' || selected.kind === 'thick-lens') && (
+        <IconButton
+          title="Add to database"
+          onClick={() => addDatabaseEntry(createDatabaseEntryFromLens(selected))}
+        >
+          <PlusIcon />
+        </IconButton>
+      )}
+      <IconButton title="Delete component" onClick={() => removeComponent(selected.id)}>
+        <TrashIcon />
+      </IconButton>
+    </>
   )
 
   return (
-    <Panel title="Properties" extra={deleteButton} className="properties-panel">
+    <Panel key="properties-selected" title="Properties" extra={headerButtons} className="properties-panel">
       <label>
         Label
         <input

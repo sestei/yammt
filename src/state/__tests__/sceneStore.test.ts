@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { useSceneStore } from '../sceneStore'
-import type { BeamAnalyzer, Placeholder, ThinLens } from '../../lib/scene/types'
+import { exportScene, useSceneStore } from '../sceneStore'
+import type { BeamAnalyzer, Placeholder, SceneDocument, ThinLens } from '../../lib/scene/types'
 
 function thinLens(id: string, xMm: number, group: ThinLens['group'] = 0, locked = false): ThinLens {
   return { id, kind: 'thin-lens', label: id, locked, group, xMm, diameterMm: 25, focalLengthMm: 100 }
@@ -72,5 +72,36 @@ describe('setGroup', () => {
     useSceneStore.setState({ components: [thinLens('a', 0, 3)] })
     useSceneStore.getState().setGroup('a', 0)
     expect(useSceneStore.getState().components[0].group).toBe(0)
+  })
+})
+
+describe('lens catalogues', () => {
+  it('setActiveCatalog switches the id without touching the user lensDatabase', () => {
+    const originalDatabase = useSceneStore.getState().lensDatabase
+    useSceneStore.getState().setActiveCatalog('some-catalog')
+    expect(useSceneStore.getState().activeCatalogId).toBe('some-catalog')
+    expect(useSceneStore.getState().lensDatabase).toBe(originalDatabase)
+
+    useSceneStore.getState().setActiveCatalog(null)
+    expect(useSceneStore.getState().activeCatalogId).toBeNull()
+  })
+
+  it('exportScene never includes an activeCatalogId or catalogue entries', () => {
+    useSceneStore.getState().setActiveCatalog('some-catalog')
+    const doc = exportScene()
+    expect(doc).not.toHaveProperty('activeCatalogId')
+  })
+
+  it('loadScene resets activeCatalogId to null', () => {
+    useSceneStore.getState().setActiveCatalog('some-catalog')
+    const doc: SceneDocument = {
+      schemaVersion: 1,
+      beam: { wavelengthNm: 1064, waistUm: 300, waistZMm: 0 },
+      components: [],
+      viewport: useSceneStore.getState().viewport,
+      lensDatabase: [],
+    }
+    useSceneStore.getState().loadScene(doc)
+    expect(useSceneStore.getState().activeCatalogId).toBeNull()
   })
 })

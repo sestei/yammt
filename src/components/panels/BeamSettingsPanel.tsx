@@ -7,7 +7,7 @@ export function BeamSettingsPanel() {
   const setBeam = useSceneStore((s) => s.setBeam)
 
   return (
-    <Panel title="Initial beam" className="beam-settings-panel">
+    <Panel title="Initial beam" className="beam-settings-panel" defaultCollapsed>
       <NumberField
         label="Wavelength (nm)"
         value={beam.wavelengthNm}

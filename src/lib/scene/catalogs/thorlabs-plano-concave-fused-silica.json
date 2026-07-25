@@ -1,0 +1,92 @@
+[
+  {
+    "name": "LC4210",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -11.5,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 3.0
+  },
+  {
+    "name": "LC4232",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -46.0,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 3.5
+  },
+  {
+    "name": "LC4252",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -13.799999999999999,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 3.0
+  },
+  {
+    "name": "LC4357",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -23.0,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 3.5
+  },
+  {
+    "name": "LC4413",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -34.5,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 3.5
+  },
+  {
+    "name": "LC4513",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -34.5,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 3.5
+  },
+  {
+    "name": "LC4796",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -13.799999999999999,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 3.0
+  },
+  {
+    "name": "LC4888",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -46.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 3.5
+  },
+  {
+    "name": "LC4918",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -92.0,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 4.0
+  },
+  {
+    "name": "LC4924",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -9.2,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.0
+  }
+]

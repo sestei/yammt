@@ -285,6 +285,41 @@ body {
   text-transform: uppercase;
 }
 
+.lens-catalog-section {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.lens-catalog-filter {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
+
+.lens-catalog-list {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.lens-catalog-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px 6px 10px;
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: grab;
+  margin-bottom: 6px;
+}
+
+.lens-catalog-item:active {
+  cursor: grabbing;
+}
+
 .panel + .panel {
   margin-top: 16px;
   padding-top: 16px;

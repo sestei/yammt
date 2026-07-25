@@ -4,7 +4,7 @@ import { buildComponentAt, buildComponentFromDatabaseEntry, isPaletteComponentKi
 import { autoYUnit } from '../../lib/units/length'
 import { PALETTE_DRAG_TYPE } from '../palette/ComponentPalette'
 import { LENS_DATABASE_DRAG_TYPE } from '../palette/LensDatabasePanel'
-import { useBeamProfile } from '../../state/selectors'
+import { useActiveLensCatalog, useBeamProfile } from '../../state/selectors'
 import { useSceneStore } from '../../state/sceneStore'
 import { Axes } from './Axes'
 import { BeamEnvelope } from './BeamEnvelope'
@@ -25,6 +25,7 @@ export function GraphView() {
   const lensDatabase = useSceneStore((s) => s.lensDatabase)
   const addComponent = useSceneStore((s) => s.addComponent)
   const select = useSceneStore((s) => s.select)
+  const activeCatalog = useActiveLensCatalog()
   const profile = useBeamProfile()
   const [containerRef, size] = useContainerSize<HTMLDivElement>()
 
@@ -85,7 +86,9 @@ export function GraphView() {
     if (isPaletteComponentKind(kind)) {
       component = buildComponentAt(kind, xMm, components)
     } else if (entryId) {
-      const entry = lensDatabase.find((dbEntry) => dbEntry.id === entryId)
+      const entry =
+        lensDatabase.find((dbEntry) => dbEntry.id === entryId) ??
+        activeCatalog?.entries.find((dbEntry) => dbEntry.id === entryId)
       if (entry) component = buildComponentFromDatabaseEntry(entry, xMm, components)
     } else {
       return

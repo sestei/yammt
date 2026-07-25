@@ -1,0 +1,110 @@
+[
+  {
+    "name": "LC1054",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": -12.86,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 3.0
+  },
+  {
+    "name": "LC1060",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": -15.430000000000001,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 3.0
+  },
+  {
+    "name": "LC1093",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": -51.46,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 4.0
+  },
+  {
+    "name": "LC1120",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": -51.46,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 4.0
+  },
+  {
+    "name": "LC1254",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": -51.510000000000005,
+    "rightRocMm": null,
+    "diameterMm": 25.0,
+    "centerThicknessMm": 4.0
+  },
+  {
+    "name": "LC1258",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": -38.63,
+    "rightRocMm": null,
+    "diameterMm": 25.0,
+    "centerThicknessMm": 3.5
+  },
+  {
+    "name": "LC1259",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": -25.750000000000004,
+    "rightRocMm": null,
+    "diameterMm": 25.0,
+    "centerThicknessMm": 3.5
+  },
+  {
+    "name": "LC1315",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": -38.63,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 3.5
+  },
+  {
+    "name": "LC1439",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": -25.73,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 3.5
+  },
+  {
+    "name": "LC1582",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": -38.63,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 3.5
+  },
+  {
+    "name": "LC1611",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": -77.19,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 4.0
+  },
+  {
+    "name": "LC1715",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": -25.73,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 3.5
+  }
+]

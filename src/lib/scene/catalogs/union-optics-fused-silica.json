@@ -1,0 +1,119 @@
+[
+  {
+    "name": "R=+25mm",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": 25.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "edgeThicknessMm": 2.0
+  },
+  {
+    "name": "R=+40mm",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": 40.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "edgeThicknessMm": 2.0
+  },
+  {
+    "name": "R=+50mm",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": 50.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "edgeThicknessMm": 2.0
+  },
+  {
+    "name": "R=+75mm",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": 75.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "edgeThicknessMm": 2.0
+  },
+  {
+    "name": "R=+100mm",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": 100.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "edgeThicknessMm": 2.0
+  },
+  {
+    "name": "R=+150mm",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": 150.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "R=+250mm",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": 250.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "R=-25mm",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -25.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "R=-50mm",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -50.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "R=-75mm",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -75.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "R=-100mm",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -100.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "R=-150mm",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -150.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "R=-250mm",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.45,
+    "leftRocMm": -250.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.0
+  }
+]

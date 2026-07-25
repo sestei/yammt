@@ -1,0 +1,866 @@
+[
+  {
+    "name": "LA1002",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 77.26,
+    "rightRocMm": null,
+    "diameterMm": 75.0,
+    "centerThicknessMm": 12.71
+  },
+  {
+    "name": "LA1027",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 18.02,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 7.23
+  },
+  {
+    "name": "LA1031",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 51.510000000000005,
+    "rightRocMm": null,
+    "diameterMm": 30.0,
+    "centerThicknessMm": 4.73
+  },
+  {
+    "name": "LA1050",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 51.510000000000005,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 9.69
+  },
+  {
+    "name": "LA1074",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 10.3,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 3.98
+  },
+  {
+    "name": "LA1085",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 15.449999999999998,
+    "rightRocMm": null,
+    "diameterMm": 18.0,
+    "centerThicknessMm": 4.69
+  },
+  {
+    "name": "LA1102",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 25.750000000000004,
+    "rightRocMm": null,
+    "diameterMm": 30.0,
+    "centerThicknessMm": 7.31
+  },
+  {
+    "name": "LA1119",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 25.750000000000004,
+    "rightRocMm": null,
+    "diameterMm": 18.0,
+    "centerThicknessMm": 3.42
+  },
+  {
+    "name": "LA1131",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 25.750000000000004,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 5.34
+  },
+  {
+    "name": "LA1134",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 30.899999999999995,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 4.73
+  },
+  {
+    "name": "LA1145",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 38.63,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 12.52
+  },
+  {
+    "name": "LA1172",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 206.03,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.39
+  },
+  {
+    "name": "LA1207",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 51.510000000000005,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.19
+  },
+  {
+    "name": "LA1213",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 25.750000000000004,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.59
+  },
+  {
+    "name": "LA1229",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 90.13,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.89
+  },
+  {
+    "name": "LA1237",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 257.54,
+    "rightRocMm": null,
+    "diameterMm": 30.0,
+    "centerThicknessMm": 2.31
+  },
+  {
+    "name": "LA1238",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 51.510000000000005,
+    "rightRocMm": null,
+    "diameterMm": 75.0,
+    "centerThicknessMm": 19.19
+  },
+  {
+    "name": "LA1251",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 51.510000000000005,
+    "rightRocMm": null,
+    "diameterMm": 25.0,
+    "centerThicknessMm": 3.6
+  },
+  {
+    "name": "LA1252",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 13.1,
+    "rightRocMm": null,
+    "diameterMm": 25.0,
+    "centerThicknessMm": 11.7
+  },
+  {
+    "name": "LA1253",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 103.00000000000001,
+    "rightRocMm": null,
+    "diameterMm": 25.0,
+    "centerThicknessMm": 2.8
+  },
+  {
+    "name": "LA1254",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 775.2,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.1
+  },
+  {
+    "name": "LA1255",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 25.76,
+    "rightRocMm": null,
+    "diameterMm": 25.0,
+    "centerThicknessMm": 5.3
+  },
+  {
+    "name": "LA1256",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 154.52,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 5.1
+  },
+  {
+    "name": "LA1257",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 38.63,
+    "rightRocMm": null,
+    "diameterMm": 25.0,
+    "centerThicknessMm": 4.1
+  },
+  {
+    "name": "LA1258",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 1033.6,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.1
+  },
+  {
+    "name": "LA1259",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 1292.0,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.1
+  },
+  {
+    "name": "LA1270",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 12.869999999999997,
+    "rightRocMm": null,
+    "diameterMm": 18.0,
+    "centerThicknessMm": 5.46
+  },
+  {
+    "name": "LA1274",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 20.6,
+    "rightRocMm": null,
+    "diameterMm": 30.0,
+    "centerThicknessMm": 8.97
+  },
+  {
+    "name": "LA1289",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 15.449999999999998,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 3.16
+  },
+  {
+    "name": "LA1301",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 128.77,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 5.52
+  },
+  {
+    "name": "LA1304",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 20.6,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.8
+  },
+  {
+    "name": "LA1353",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 103.01000000000002,
+    "rightRocMm": null,
+    "diameterMm": 75.0,
+    "centerThicknessMm": 10.06
+  },
+  {
+    "name": "LA1380",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 257.54,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 4.25
+  },
+  {
+    "name": "LA1384",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 64.38,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 8.22
+  },
+  {
+    "name": "LA1385",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 25.84,
+    "rightRocMm": null,
+    "diameterMm": 38.1,
+    "centerThicknessMm": 10.88
+  },
+  {
+    "name": "LA1386",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 38.76,
+    "rightRocMm": null,
+    "diameterMm": 38.1,
+    "centerThicknessMm": 7.5
+  },
+  {
+    "name": "LA1387",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 51.68,
+    "rightRocMm": null,
+    "diameterMm": 38.1,
+    "centerThicknessMm": 6.14
+  },
+  {
+    "name": "LA1388",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 77.52,
+    "rightRocMm": null,
+    "diameterMm": 38.1,
+    "centerThicknessMm": 4.88
+  },
+  {
+    "name": "LA1389",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 103.36,
+    "rightRocMm": null,
+    "diameterMm": 38.1,
+    "centerThicknessMm": 4.27
+  },
+  {
+    "name": "LA1399",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 90.13,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 6.65
+  },
+  {
+    "name": "LA1401",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 30.899999999999995,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 16.29
+  },
+  {
+    "name": "LA1417",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 77.26,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 7.29
+  },
+  {
+    "name": "LA1419",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 154.52,
+    "rightRocMm": null,
+    "diameterMm": 30.0,
+    "centerThicknessMm": 2.52
+  },
+  {
+    "name": "LA1422",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 20.6,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 6.37
+  },
+  {
+    "name": "LA1433",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 77.26,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 3.05
+  },
+  {
+    "name": "LA1461",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 128.77,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.62
+  },
+  {
+    "name": "LA1464",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 515.08,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.15
+  },
+  {
+    "name": "LA1484",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 154.52,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.52
+  },
+  {
+    "name": "LA1509",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 51.510000000000005,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 3.59
+  },
+  {
+    "name": "LA1540",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 7.719999999999999,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 5.12
+  },
+  {
+    "name": "LA1541",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 103.01000000000002,
+    "rightRocMm": null,
+    "diameterMm": 30.0,
+    "centerThicknessMm": 2.78
+  },
+  {
+    "name": "LA1560",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 12.869999999999997,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 3.47
+  },
+  {
+    "name": "LA1608",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 38.63,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 4.14
+  },
+  {
+    "name": "LA1610",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 18.087945326601577,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 3.0
+  },
+  {
+    "name": "LA1611",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 31.007906274111896,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 3.0
+  },
+  {
+    "name": "LA1612",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 38.75988284285783,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.5
+  },
+  {
+    "name": "LA1613",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 64.59980473812588,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.2
+  },
+  {
+    "name": "LA1614",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 77.5197656855223,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.2
+  },
+  {
+    "name": "LA1615",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 90.43972663327001,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.2
+  },
+  {
+    "name": "LA1616",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 103.35968758099906,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.2
+  },
+  {
+    "name": "LA1617",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 129.19960947629679,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.2
+  },
+  {
+    "name": "LA1618",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 155.0395313715634,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.2
+  },
+  {
+    "name": "LA1619",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 180.879453266675,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.2
+  },
+  {
+    "name": "LA1620",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 206.71937516199813,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.2
+  },
+  {
+    "name": "LA1621",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 232.559297057255,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.2
+  },
+  {
+    "name": "LA1622",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 258.39921895263217,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.2
+  },
+  {
+    "name": "LA1623",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 310.07906274312575,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "LA1624",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 387.5988284288884,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "LA1625",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 439.27867221924737,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "LA1626",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 516.7984379050203,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "LA1627",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 775.1976568575247,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "LA1628",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 1033.5968758100123,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "LA1629",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 1291.996094762499,
+    "rightRocMm": null,
+    "diameterMm": 12.7,
+    "centerThicknessMm": 2.0
+  },
+  {
+    "name": "LA1630",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 180.87945326666107,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.5
+  },
+  {
+    "name": "LA1631",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 232.55929705701035,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.4
+  },
+  {
+    "name": "LA1632",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 310.07906274278065,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.2
+  },
+  {
+    "name": "LA1633",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 439.27867221923117,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.2
+  },
+  {
+    "name": "LA1634",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 180.87945326666107,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 4.8
+  },
+  {
+    "name": "LA1635",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 232.55929705701035,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 4.5
+  },
+  {
+    "name": "LA1636",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 310.07906274278065,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 4.0
+  },
+  {
+    "name": "LA1637",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 439.2786722192578,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 3.8
+  },
+  {
+    "name": "LA1708",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 103.01000000000002,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.78
+  },
+  {
+    "name": "LA1725",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 206.03,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 4.57
+  },
+  {
+    "name": "LA1727",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 386.31,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 3.83
+  },
+  {
+    "name": "LA1740",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 43.78,
+    "rightRocMm": null,
+    "diameterMm": 75.0,
+    "centerThicknessMm": 24.18
+  },
+  {
+    "name": "LA1765",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 38.63,
+    "rightRocMm": null,
+    "diameterMm": 30.0,
+    "centerThicknessMm": 5.53
+  },
+  {
+    "name": "LA1779",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 515.08,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 3.62
+  },
+  {
+    "name": "LA1805",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 15.449999999999998,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 8.64
+  },
+  {
+    "name": "LA1832",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 128.77,
+    "rightRocMm": null,
+    "diameterMm": 30.0,
+    "centerThicknessMm": 2.62
+  },
+  {
+    "name": "LA1859",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 10.3,
+    "rightRocMm": null,
+    "diameterMm": 18.0,
+    "centerThicknessMm": 7.08
+  },
+  {
+    "name": "LA1907",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 77.26,
+    "rightRocMm": null,
+    "diameterMm": 30.0,
+    "centerThicknessMm": 3.05
+  },
+  {
+    "name": "LA1908",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 257.54,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.31
+  },
+  {
+    "name": "LA1951",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 13.08,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 11.74
+  },
+  {
+    "name": "LA1978",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 386.31,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 2.2
+  },
+  {
+    "name": "LA1979",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 103.01000000000002,
+    "rightRocMm": null,
+    "diameterMm": 50.8,
+    "centerThicknessMm": 6.18
+  },
+  {
+    "name": "LA1986",
+    "kind": "thick-lens",
+    "refractiveIndex": 1.52,
+    "leftRocMm": 64.38,
+    "rightRocMm": null,
+    "diameterMm": 25.4,
+    "centerThicknessMm": 3.26
+  }
+]

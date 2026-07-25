@@ -4,7 +4,7 @@ const DEFAULT_PLACEHOLDER_WIDTH_MM = 10
 
 let fallbackCounter = 0
 
-function nextId(): string {
+export function nextId(): string {
   if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID()
   fallbackCounter += 1
   return `component-${fallbackCounter}`
@@ -107,12 +107,19 @@ export function instantiateFromDatabaseEntry(entry: LensDatabaseEntry, xMm: numb
   }
 }
 
-const SEED_FOCAL_LENGTHS_MM = [50, 100, 250, 500, -50, -100, -250, -500]
-
-export const DEFAULT_LENS_DATABASE: LensDatabaseEntry[] = SEED_FOCAL_LENGTHS_MM.map((focalLengthMm) => ({
-  id: nextId(),
-  name: `f=${focalLengthMm}mm`,
-  kind: 'thin-lens',
-  diameterMm: 25,
-  focalLengthMm,
-}))
+/** Inverse of instantiateFromDatabaseEntry -- captures a graph lens's shape as a new, independent database entry. */
+export function createDatabaseEntryFromLens(lens: ThinLens | ThickLens): LensDatabaseEntry {
+  if (lens.kind === 'thin-lens') {
+    return { id: nextId(), name: lens.label, kind: 'thin-lens', diameterMm: lens.diameterMm, focalLengthMm: lens.focalLengthMm }
+  }
+  return {
+    id: nextId(),
+    name: lens.label,
+    kind: 'thick-lens',
+    refractiveIndex: lens.refractiveIndex,
+    leftRocMm: lens.leftRocMm,
+    rightRocMm: lens.rightRocMm,
+    diameterMm: lens.diameterMm,
+    centerThicknessMm: lens.centerThicknessMm,
+  }
+}

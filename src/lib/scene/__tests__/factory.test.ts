@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createLensDatabaseEntry, DEFAULT_LENS_DATABASE, instantiateFromDatabaseEntry } from '../factory'
+import { createLensDatabaseEntry, instantiateFromDatabaseEntry } from '../factory'
 import type { ThickLensDatabaseEntry, ThinLensDatabaseEntry } from '../types'
 
 describe('createLensDatabaseEntry', () => {
@@ -70,16 +70,5 @@ describe('instantiateFromDatabaseEntry', () => {
       centerThicknessMm: 6,
       label: 'BK7 lens',
     })
-  })
-})
-
-describe('DEFAULT_LENS_DATABASE', () => {
-  it('seeds 8 thin lenses at the expected focal lengths', () => {
-    expect(DEFAULT_LENS_DATABASE).toHaveLength(8)
-    expect(DEFAULT_LENS_DATABASE.every((e) => e.kind === 'thin-lens')).toBe(true)
-    const focalLengths = DEFAULT_LENS_DATABASE.map((e) => (e as ThinLensDatabaseEntry).focalLengthMm).sort(
-      (a, b) => a - b,
-    )
-    expect(focalLengths).toEqual([-500, -250, -100, -50, 50, 100, 250, 500])
   })
 })

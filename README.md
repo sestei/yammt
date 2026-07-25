@@ -6,6 +6,14 @@ A browser-based tool for visualizing Gaussian laser beam propagation and mode-ma
 
 YaMMT is heavily inspired by Nico Lastzka's JamMT. However, JamMT hasn't been maintained for many years, and new ideas and usability features have not made it into the tool. Therefore, YaMMT is a complete rewrite (making heavy usage of Claude) and should eventually have all good features of JamMT, but improve upon usability (no Java needed, runs on a tablet!) and add a few more ideas later on.
 
+## Missing essential features
+
+These features are high on the priority list to be implemented:
+
+- no mode-matching assistant yet (but also, do try manually — it will give you a better understanding of the behaviour of Gaussian beams),
+- lens materials are not yet supported, i.e. there is no automatic calculation of refractive index for the beam wavelength,
+- astigmatic optics are not yet supported.
+
 ## Features
 
 - Define a starting Gaussian beam (wavelength, waist size, waist position) and watch it propagate along an interactive graph, with 1σ/2σ/3σ envelopes.
