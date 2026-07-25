@@ -17,6 +17,8 @@ export interface ThinLens extends ComponentBase {
   xMm: number
   diameterMm: number
   focalLengthMm: number
+  /** Temporarily excluded from raytracing and collision checks, but kept in place. */
+  disabled: boolean
 }
 
 export interface ThickLens extends ComponentBase {
@@ -28,6 +30,8 @@ export interface ThickLens extends ComponentBase {
   rightRocMm: number
   diameterMm: number
   centerThicknessMm: number
+  /** Temporarily excluded from raytracing and collision checks, but kept in place. */
+  disabled: boolean
 }
 
 export interface BeamAnalyzer extends ComponentBase {
@@ -39,6 +43,8 @@ export interface Placeholder extends ComponentBase {
   kind: 'placeholder'
   xStartMm: number
   xEndMm: number
+  /** Temporarily excluded from collision checks, but kept in place. */
+  disabled: boolean
 }
 
 export type SceneComponent = ThinLens | ThickLens | BeamAnalyzer | Placeholder

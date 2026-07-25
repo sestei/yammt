@@ -3,11 +3,11 @@ import { exportScene, useSceneStore } from '../sceneStore'
 import type { BeamAnalyzer, Placeholder, SceneDocument, ThinLens } from '../../lib/scene/types'
 
 function thinLens(id: string, xMm: number, group: ThinLens['group'] = 0, locked = false): ThinLens {
-  return { id, kind: 'thin-lens', label: id, locked, group, xMm, diameterMm: 25, focalLengthMm: 100 }
+  return { id, kind: 'thin-lens', label: id, locked, group, disabled: false, xMm, diameterMm: 25, focalLengthMm: 100 }
 }
 
 function placeholder(id: string, xStartMm: number, xEndMm: number): Placeholder {
-  return { id, kind: 'placeholder', label: id, locked: false, group: 0, xStartMm, xEndMm }
+  return { id, kind: 'placeholder', label: id, locked: false, group: 0, disabled: false, xStartMm, xEndMm }
 }
 
 function analyzer(id: string, xMm: number): BeamAnalyzer {
@@ -103,5 +103,24 @@ describe('lens catalogues', () => {
     }
     useSceneStore.getState().loadScene(doc)
     expect(useSceneStore.getState().activeCatalogId).toBeNull()
+  })
+})
+
+describe('toggleDisabled', () => {
+  it('flips a lens/placeholder disabled flag on and off', () => {
+    useSceneStore.setState({ components: [thinLens('a', 0), placeholder('p', 10, 20)] })
+    useSceneStore.getState().toggleDisabled('a')
+    expect((useSceneStore.getState().components[0] as ThinLens).disabled).toBe(true)
+    useSceneStore.getState().toggleDisabled('a')
+    expect((useSceneStore.getState().components[0] as ThinLens).disabled).toBe(false)
+
+    useSceneStore.getState().toggleDisabled('p')
+    expect((useSceneStore.getState().components[1] as Placeholder).disabled).toBe(true)
+  })
+
+  it('is a no-op for an analyzer', () => {
+    useSceneStore.setState({ components: [analyzer('a', 50)] })
+    useSceneStore.getState().toggleDisabled('a')
+    expect(useSceneStore.getState().components[0]).toEqual(analyzer('a', 50))
   })
 })

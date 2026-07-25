@@ -1,8 +1,11 @@
 import type { ChangeEvent, ReactNode } from 'react'
+import { flippedThickLensRoc } from '../../lib/optics/thickLensGeometry'
 import { createDatabaseEntryFromLens } from '../../lib/scene/factory'
 import { buildComponentFromDatabaseEntry, nextPlacementXMm } from '../../lib/scene/placement'
 import { isXRangeFreeOfLenses } from '../../lib/scene/placeholderCollision'
 import { mmToUnit, unitLabel, unitToMm } from '../../lib/units/length'
+import { DisableIcon } from '../icons/DisableIcon'
+import { FlipIcon } from '../icons/FlipIcon'
 import { PlusIcon } from '../icons/PlusIcon'
 import { TrashIcon } from '../icons/TrashIcon'
 import { Panel } from '../layout/Panel'
@@ -18,14 +21,22 @@ import { ThinLensShapeFields } from './ThinLensShapeFields'
 function IconButton({
   title,
   onClick,
+  active,
   children,
 }: {
   title: string
   onClick: () => void
+  active?: boolean
   children: ReactNode
 }) {
   return (
-    <button type="button" className="icon-button" title={title} aria-label={title} onClick={onClick}>
+    <button
+      type="button"
+      className={`icon-button${active ? ' active' : ''}`}
+      title={title}
+      aria-label={title}
+      onClick={onClick}
+    >
       {children}
     </button>
   )
@@ -90,6 +101,7 @@ export function PropertiesPanel() {
   const holeSpacing = useSceneStore((s) => s.viewport.holeSpacing)
   const updateComponent = useSceneStore((s) => s.updateComponent)
   const toggleLock = useSceneStore((s) => s.toggleLock)
+  const toggleDisabled = useSceneStore((s) => s.toggleDisabled)
   const setGroup = useSceneStore((s) => s.setGroup)
   const removeComponent = useSceneStore((s) => s.removeComponent)
   const addDatabaseEntry = useSceneStore((s) => s.addDatabaseEntry)
@@ -114,6 +126,23 @@ export function PropertiesPanel() {
           onClick={() => addDatabaseEntry(createDatabaseEntryFromLens(selected))}
         >
           <PlusIcon />
+        </IconButton>
+      )}
+      {selected.kind === 'thick-lens' && (
+        <IconButton
+          title="Flip (turn the lens end-for-end)"
+          onClick={() => updateComponent(selected.id, flippedThickLensRoc(selected))}
+        >
+          <FlipIcon />
+        </IconButton>
+      )}
+      {selected.kind !== 'analyzer' && (
+        <IconButton
+          title={selected.disabled ? 'Enable component' : 'Disable component (ignored by raytracing)'}
+          active={selected.disabled}
+          onClick={() => toggleDisabled(selected.id)}
+        >
+          <DisableIcon />
         </IconButton>
       )}
       <IconButton title="Delete component" onClick={() => removeComponent(selected.id)}>

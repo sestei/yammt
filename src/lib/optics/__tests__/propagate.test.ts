@@ -8,7 +8,17 @@ import type { SceneComponent, ThickLens, ThinLens } from '../../scene/types'
 const beam: GaussianBeam = { wavelengthNm: 1064, waistUm: 337, waistZMm: 0 }
 
 function makeThinLens(id: string, xMm: number, focalLengthMm: number): ThinLens {
-  return { id, kind: 'thin-lens', label: id, locked: false, group: 0, xMm, diameterMm: 25, focalLengthMm }
+  return {
+    id,
+    kind: 'thin-lens',
+    label: id,
+    locked: false,
+    group: 0,
+    disabled: false,
+    xMm,
+    diameterMm: 25,
+    focalLengthMm,
+  }
 }
 
 function makeThickLens(id: string, xMm: number): ThickLens {
@@ -18,6 +28,7 @@ function makeThickLens(id: string, xMm: number): ThickLens {
     label: id,
     locked: false,
     group: 0,
+    disabled: false,
     xMm,
     refractiveIndex: 1.5,
     leftRocMm: 50,
@@ -31,7 +42,16 @@ describe('buildElementList', () => {
   it('sorts by x position, ignoring analyzers and placeholders', () => {
     const components: SceneComponent[] = [
       makeThinLens('b', 100, 50),
-      { id: 'ph', kind: 'placeholder', label: 'ph', locked: false, group: 0, xStartMm: 0, xEndMm: 10 },
+      {
+        id: 'ph',
+        kind: 'placeholder',
+        label: 'ph',
+        locked: false,
+        group: 0,
+        disabled: false,
+        xStartMm: 0,
+        xEndMm: 10,
+      },
       makeThinLens('a', 20, 75),
       { id: 'an', kind: 'analyzer', label: 'an', locked: false, group: 0, xMm: 50 },
     ]
@@ -45,6 +65,16 @@ describe('buildElementList', () => {
     const components: SceneComponent[] = [makeThinLens('z', 50, 50), makeThinLens('a', 50, 50)]
     const elements = buildElementList(components)
     expect(elements.map((e) => e.id)).toEqual(['a', 'z'])
+  })
+
+  it('ignores disabled thin and thick lenses', () => {
+    const components: SceneComponent[] = [
+      { ...makeThinLens('a', 20, 75), disabled: true },
+      makeThinLens('b', 100, 50),
+      { ...makeThickLens('c', 150), disabled: true },
+    ]
+    const elements = buildElementList(components)
+    expect(elements.map((e) => e.id)).toEqual(['b'])
   })
 })
 

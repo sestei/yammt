@@ -386,6 +386,12 @@ body {
   border-color: var(--accent);
 }
 
+.icon-button.active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(var(--warning), 0.12);
+}
+
 .panel label {
   display: flex;
   flex-direction: column;
@@ -587,6 +593,10 @@ body {
 
 .component.locked {
   cursor: default;
+}
+
+.component.disabled {
+  opacity: 0.35;
 }
 
 .component .lens-body {

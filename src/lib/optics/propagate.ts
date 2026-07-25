@@ -29,8 +29,10 @@ export function buildElementList(components: SceneComponent[]): OpticalElement[]
   const elements: OpticalElement[] = []
   for (const c of components) {
     if (c.kind === 'thin-lens') {
+      if (c.disabled) continue
       elements.push({ id: c.id, xMm: c.xMm, matrix: thinLensMatrix(c.focalLengthMm) })
     } else if (c.kind === 'thick-lens') {
+      if (c.disabled) continue
       elements.push({
         id: `${c.id}:1`,
         xMm: c.xMm,

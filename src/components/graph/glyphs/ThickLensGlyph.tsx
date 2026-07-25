@@ -94,6 +94,7 @@ export function ThickLensGlyph({ component, scales, selected, threeSigmaRadiusMm
     'component',
     'thick-lens',
     component.locked && 'locked',
+    component.disabled && 'disabled',
     selected && 'selected',
     (apertureWarning || geometryIssue.kind !== 'ok') && 'aperture-warning',
   ]

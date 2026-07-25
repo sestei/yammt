@@ -28,7 +28,13 @@ export function PlaceholderGlyph({ component, scales, selected, onSelect }: Plac
     onSelect()
   }
 
-  const className = ['component', 'placeholder', component.locked && 'locked', selected && 'selected']
+  const className = [
+    'component',
+    'placeholder',
+    component.locked && 'locked',
+    component.disabled && 'disabled',
+    selected && 'selected',
+  ]
     .filter(Boolean)
     .join(' ')
 

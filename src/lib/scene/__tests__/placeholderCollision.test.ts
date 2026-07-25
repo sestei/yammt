@@ -2,12 +2,22 @@ import { describe, expect, it } from 'vitest'
 import { isXRangeFreeOfLenses, isXRangeFreeOfPlaceholders } from '../placeholderCollision'
 import type { Placeholder, SceneComponent, ThinLens } from '../types'
 
-function placeholder(id: string, xStartMm: number, xEndMm: number): Placeholder {
-  return { id, kind: 'placeholder', label: id, locked: false, group: 0, xStartMm, xEndMm }
+function placeholder(id: string, xStartMm: number, xEndMm: number, disabled = false): Placeholder {
+  return { id, kind: 'placeholder', label: id, locked: false, group: 0, disabled, xStartMm, xEndMm }
 }
 
-function thinLens(id: string, xMm: number): ThinLens {
-  return { id, kind: 'thin-lens', label: id, locked: false, group: 0, xMm, diameterMm: 25, focalLengthMm: 100 }
+function thinLens(id: string, xMm: number, disabled = false): ThinLens {
+  return {
+    id,
+    kind: 'thin-lens',
+    label: id,
+    locked: false,
+    group: 0,
+    disabled,
+    xMm,
+    diameterMm: 25,
+    focalLengthMm: 100,
+  }
 }
 
 describe('isXRangeFreeOfPlaceholders', () => {
@@ -28,6 +38,10 @@ describe('isXRangeFreeOfPlaceholders', () => {
   it('excludes the given id from the check', () => {
     expect(isXRangeFreeOfPlaceholders(components, 15, 15, 'p1')).toBe(true)
   })
+
+  it('ignores a disabled placeholder', () => {
+    expect(isXRangeFreeOfPlaceholders([placeholder('p1', 10, 20, true)], 15, 15)).toBe(true)
+  })
 })
 
 describe('isXRangeFreeOfLenses', () => {
@@ -43,5 +57,9 @@ describe('isXRangeFreeOfLenses', () => {
 
   it('excludes the given id from the check', () => {
     expect(isXRangeFreeOfLenses(components, 10, 20, 'l1')).toBe(true)
+  })
+
+  it('ignores a disabled lens', () => {
+    expect(isXRangeFreeOfLenses([thinLens('l1', 15, true)], 10, 20)).toBe(true)
   })
 })

@@ -3,7 +3,7 @@ import { buildComponentAt } from '../placement'
 import type { Placeholder } from '../types'
 
 function placeholder(xStartMm: number, xEndMm: number): Placeholder {
-  return { id: 'p', kind: 'placeholder', label: 'p', locked: false, group: 0, xStartMm, xEndMm }
+  return { id: 'p', kind: 'placeholder', label: 'p', locked: false, group: 0, disabled: false, xStartMm, xEndMm }
 }
 
 describe('buildComponentAt', () => {
@@ -18,7 +18,17 @@ describe('buildComponentAt', () => {
   })
 
   it('still blocks a placeholder from being placed over a lens', () => {
-    const lens = { id: 'l', kind: 'thin-lens' as const, label: 'l', locked: false, group: 0 as const, xMm: 10, diameterMm: 25, focalLengthMm: 100 }
+    const lens = {
+      id: 'l',
+      kind: 'thin-lens' as const,
+      label: 'l',
+      locked: false,
+      group: 0 as const,
+      disabled: false,
+      xMm: 10,
+      diameterMm: 25,
+      focalLengthMm: 100,
+    }
     expect(buildComponentAt('placeholder', 10, [lens])).toBeNull()
   })
 })

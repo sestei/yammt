@@ -15,6 +15,8 @@ import { SecondaryAxisCurve } from './SecondaryAxisCurve'
 import { createScales, createSecondaryScale } from './scales'
 import { useContainerSize } from './useContainerSize'
 import { useDeleteKeyboardShortcut } from './useDeleteKeyboardShortcut'
+import { useDisableKeyboardShortcut } from './useDisableKeyboardShortcut'
+import { useFlipKeyboardShortcut } from './useFlipKeyboardShortcut'
 import { useGroupKeyboardShortcut } from './useGroupKeyboardShortcut'
 import { useNudgeKeyboardShortcut } from './useNudgeKeyboardShortcut'
 import { useViewportGestures } from './useViewportGestures'
@@ -32,6 +34,8 @@ export function GraphView() {
   useGroupKeyboardShortcut()
   useDeleteKeyboardShortcut()
   useNudgeKeyboardShortcut()
+  useFlipKeyboardShortcut()
+  useDisableKeyboardShortcut()
 
   // Fixed reference range set once at viewport creation, scaled only by explicit
   // ctrl+scroll (yZoom) — not recomputed from the live profile, since continuous

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { checkThickLensGeometry, isThickLensGeometryValid } from '../thickLensGeometry'
+import { checkThickLensGeometry, flippedThickLensRoc, isThickLensGeometryValid } from '../thickLensGeometry'
 import type { ThickLens } from '../../scene/types'
 
 function thickLens(overrides: Partial<ThickLens>): ThickLens {
@@ -9,6 +9,7 @@ function thickLens(overrides: Partial<ThickLens>): ThickLens {
     label: 'l1',
     locked: false,
     group: 0,
+    disabled: false,
     xMm: 0,
     refractiveIndex: 1.5,
     leftRocMm: 50,
@@ -69,5 +70,27 @@ describe('isThickLensGeometryValid', () => {
 
   it('is false when the aperture exceeds a ROC', () => {
     expect(isThickLensGeometryValid(thickLens({ leftRocMm: 5, diameterMm: 100 }))).toBe(false)
+  })
+})
+
+describe('flippedThickLensRoc', () => {
+  it('swaps and negates the two ROCs', () => {
+    expect(flippedThickLensRoc({ leftRocMm: 25, rightRocMm: -80 })).toEqual({ leftRocMm: 80, rightRocMm: -25 })
+  })
+
+  it('is self-inverse: flipping twice restores the original values', () => {
+    const original = { leftRocMm: 13.799, rightRocMm: -47.2 }
+    expect(flippedThickLensRoc(flippedThickLensRoc(original))).toEqual(original)
+  })
+
+  it('leaves a symmetric biconvex lens unchanged (its own mirror image)', () => {
+    expect(flippedThickLensRoc({ leftRocMm: 50, rightRocMm: -50 })).toEqual({ leftRocMm: 50, rightRocMm: -50 })
+  })
+
+  it('keeps a flat surface flat after flipping', () => {
+    const flipped = flippedThickLensRoc({ leftRocMm: 25, rightRocMm: Infinity })
+    expect(Number.isFinite(flipped.leftRocMm)).toBe(false)
+    expect(flipped.leftRocMm).toBe(-Infinity)
+    expect(flipped.rightRocMm).toBe(-25)
   })
 })

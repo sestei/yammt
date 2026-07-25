@@ -80,6 +80,7 @@ export function ThinLensGlyph({ component, scales, selected, threeSigmaRadiusMm,
     'component',
     'thin-lens',
     component.locked && 'locked',
+    component.disabled && 'disabled',
     selected && 'selected',
     apertureWarning && 'aperture-warning',
   ]

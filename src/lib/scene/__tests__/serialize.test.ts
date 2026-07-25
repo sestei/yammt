@@ -13,6 +13,7 @@ function fullSceneDocument(): SceneDocument {
         label: 'Thin',
         locked: false,
         group: 1,
+        disabled: false,
         xMm: 50,
         diameterMm: 25,
         focalLengthMm: 100,
@@ -23,6 +24,7 @@ function fullSceneDocument(): SceneDocument {
         label: 'Thick',
         locked: true,
         group: 0,
+        disabled: false,
         xMm: 100,
         refractiveIndex: 1.5,
         leftRocMm: 50,
@@ -44,6 +46,7 @@ function fullSceneDocument(): SceneDocument {
         label: 'Placeholder',
         locked: false,
         group: 0,
+        disabled: false,
         xStartMm: 200,
         xEndMm: 210,
       },
@@ -118,5 +121,19 @@ describe('serializeScene / deserializeScene', () => {
     const json = JSON.stringify({ ...doc, components: [doc.components[0], brokenLens, ...doc.components.slice(2)] })
     const recovered = deserializeScene(json)
     expect(recovered.components[1]).toMatchObject({ rightRocMm: Infinity })
+  })
+
+  it('defaults disabled to false for older save files that predate it', () => {
+    const raw = JSON.parse(JSON.stringify(fullSceneDocument()))
+    delete raw.components[0].disabled
+    const recovered = deserializeScene(JSON.stringify(raw))
+    expect(recovered.components[0]).toMatchObject({ disabled: false })
+  })
+
+  it('round-trips disabled: true', () => {
+    const doc = fullSceneDocument()
+    const disabledLens = { ...doc.components[0], disabled: true }
+    const json = serializeScene({ ...doc, components: [disabledLens, ...doc.components.slice(1)] })
+    expect(deserializeScene(json).components[0]).toMatchObject({ disabled: true })
   })
 })

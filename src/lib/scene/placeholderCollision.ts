@@ -16,7 +16,7 @@ export function isXRangeFreeOfPlaceholders(
   excludeId?: ComponentId,
 ): boolean {
   return components.every((c) => {
-    if (c.kind !== 'placeholder' || c.id === excludeId) return true
+    if (c.kind !== 'placeholder' || c.id === excludeId || c.disabled) return true
     return !rangesOverlap(xStartMm, xEndMm, c.xStartMm, c.xEndMm)
   })
 }
@@ -33,7 +33,7 @@ export function isXRangeFreeOfLenses(
   excludeId?: ComponentId,
 ): boolean {
   return components.every((c) => {
-    if ((c.kind !== 'thin-lens' && c.kind !== 'thick-lens') || c.id === excludeId) return true
+    if ((c.kind !== 'thin-lens' && c.kind !== 'thick-lens') || c.id === excludeId || c.disabled) return true
     return !rangesOverlap(xStartMm, xEndMm, getLeftXMm(c), getRightXMm(c))
   })
 }

@@ -41,3 +41,16 @@ export function checkThickLensGeometry(component: ThickLensShape): ThickLensGeom
 export function isThickLensGeometryValid(component: ThickLens): boolean {
   return checkThickLensGeometry(component).kind === 'ok'
 }
+
+/**
+ * Physically turning the lens end-for-end: what was the right surface
+ * becomes the left one and vice versa, and each surface's ROC sign flips
+ * too since the sign convention is relative to the (fixed) propagation
+ * direction, not the lens body. Self-inverse -- flipping twice restores the
+ * original values exactly.
+ */
+export function flippedThickLensRoc(
+  shape: Pick<ThickLensShape, 'leftRocMm' | 'rightRocMm'>,
+): Pick<ThickLensShape, 'leftRocMm' | 'rightRocMm'> {
+  return { leftRocMm: -shape.rightRocMm, rightRocMm: -shape.leftRocMm }
+}

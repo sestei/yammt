@@ -72,6 +72,7 @@ interface SceneStoreState {
   moveComponent(id: ComponentId, newLeftXMm: number): void
   setGroup(id: ComponentId, group: GroupId): void
   toggleLock(id: ComponentId): void
+  toggleDisabled(id: ComponentId): void
   select(id: ComponentId | null): void
   addDatabaseEntry(entry: LensDatabaseEntry): void
   updateDatabaseEntry(id: string, patch: Partial<LensDatabaseEntry>): void
@@ -152,6 +153,15 @@ export const useSceneStore = create<SceneStoreState>((set, get) => ({
 
   toggleLock(id) {
     set((s) => ({ components: s.components.map((c) => (c.id === id ? { ...c, locked: !c.locked } : c)) }))
+  },
+
+  toggleDisabled(id) {
+    set((s) => ({
+      components: s.components.map((c) => {
+        if (c.id !== id || c.kind === 'analyzer') return c
+        return { ...c, disabled: !c.disabled }
+      }),
+    }))
   },
 
   select(id) {

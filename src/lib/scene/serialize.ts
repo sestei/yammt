@@ -30,6 +30,13 @@ function assert(condition: boolean, message: string): asserts condition {
   if (!condition) throw new Error(`Invalid scene file: ${message}`)
 }
 
+// Additive field: older save files predate per-component disable and simply
+// don't have it. Doesn't apply to analyzers (readout only, never disableable).
+function withDefaultDisabled(entry: Record<string, unknown>): Record<string, unknown> {
+  if (entry.kind === 'analyzer') return entry
+  return { disabled: false, ...entry }
+}
+
 /**
  * Structural validation only (not full deep schema checking) -- enough to fail
  * clearly on a corrupt or unrelated JSON file rather than silently producing a
@@ -48,7 +55,9 @@ function migrateScene(raw: unknown): SceneDocument {
       // Additive field: older save files predate the lens database and simply don't have it.
       const lensDatabase = 'lensDatabase' in doc ? doc.lensDatabase : []
       assert(Array.isArray(lensDatabase), 'invalid "lensDatabase"')
-      const components = (doc.components as unknown[]).map((c) => recoverNullRoc(c as Record<string, unknown>))
+      const components = (doc.components as unknown[]).map((c) =>
+        withDefaultDisabled(recoverNullRoc(c as Record<string, unknown>)),
+      )
       const recoveredLensDatabase = lensDatabase.map((e) => recoverNullRoc(e as Record<string, unknown>))
       return { ...doc, components, lensDatabase: recoveredLensDatabase } as unknown as SceneDocument
     }

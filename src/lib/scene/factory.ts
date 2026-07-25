@@ -40,6 +40,7 @@ export function createThinLens(xMm: number, shape: ThinLensShape = DEFAULT_THIN_
     label: 'Lens',
     locked: false,
     group: 0,
+    disabled: false,
     xMm,
     ...shape,
   }
@@ -52,6 +53,7 @@ export function createThickLens(xMm: number, shape: ThickLensShape = DEFAULT_THI
     label: 'Thick Lens',
     locked: false,
     group: 0,
+    disabled: false,
     xMm,
     ...shape,
   }
@@ -75,6 +77,7 @@ export function createPlaceholder(xMm: number): Placeholder {
     label: 'Placeholder',
     locked: false,
     group: 0,
+    disabled: false,
     xStartMm: xMm - DEFAULT_PLACEHOLDER_WIDTH_MM / 2,
     xEndMm: xMm + DEFAULT_PLACEHOLDER_WIDTH_MM / 2,
   }
